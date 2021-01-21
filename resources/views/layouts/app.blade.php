@@ -34,7 +34,7 @@
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-building"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SIMPI</div>
+                <div class="sidebar-brand-text mx-3">SIOTANG</div>
             </a>
 
             <!-- Divider -->
@@ -44,7 +44,16 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dasbor</span></a>
+										<span>Dasbor</span>
+								</a>
+								<a class="nav-link" href="#">
+									<i class="fas fa-fw fa-book-reader"></i>
+									<span>Pendaftaran Proposal</span>
+								</a>
+								<a class="nav-link" href="#">
+									<i class="fas fa-fw fa-stamp"></i>
+									<span>Pengesahan Proposal</span>
+								</a>
             </li>
 
             <!-- Divider -->
@@ -122,7 +131,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; PT. Mencari Cinta Sejati 2020</span>
+                        <span>Copyright &copy; SIOTANG 2021</span>
                     </div>
                 </div>
             </footer>
