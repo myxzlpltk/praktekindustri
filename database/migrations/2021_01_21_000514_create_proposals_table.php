@@ -14,7 +14,13 @@ class CreateProposalsTable extends Migration
     public function up()
     {
         Schema::create('proposals', function (Blueprint $table) {
-            $table->id();
+						$table->id();
+						$table->string('lokasi_prakerin');
+						$table->string('tgl_sah');
+						$table->string('file_proposal');
+						$table->string('status');
+						$table->string('lembar_sah')->nullable();
+						$table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

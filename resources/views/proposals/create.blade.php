@@ -13,24 +13,39 @@
 		<div class="card-body">
 			<form action="{{ route('proposals.store') }}" method="POST" enctype="multipart/form-data">
 				@csrf
+
 				<div class="form-group">
+					@error('f_lokasi')
+					<div class="alert alert-danger mb-2">
+							Nama industri/instansi wajib diisi!
+					</div>
+					@enderror
 					<label for="lokasi">Nama Industri/Instansi</label>
-					<input name="f_lokasi" type="text" class="form-control form-control-user" id="lokasi" placeholder="Masukkan nama industri/instansi...">
+					<input name="f_lokasi" type="text" class="form-control form-control-user" id="lokasi" value="{{ old('f_lokasi') }}" placeholder="Masukkan nama industri/instansi...">
 				</div>
 				<div class="form-group">
+					@error('f_tgl_sah')
+					<div class="alert alert-danger mb-2">
+							Tanggal pengesahan wajib diisi!
+					</div>
+					@enderror
 					<label for="tgl_sah">Tanggal Pengesahan (Hari Efektif)</label>
-					<input name="f_tgl_sah" type="date" class="form-control form-control-user" id="tgl_sah">
+					<input name="f_tgl_sah" type="date" class="form-control form-control-user" id="tgl_sah" value="{{ old('f_tgl_sah') }}">
 				</div>
 				<div class="form-group">
+					@error('f_fileproposal')
+					<div class="alert alert-danger mb-2">
+							Proposal wajib diunggah dalam format pdf!
+					</div>
+					@enderror
 					<label for="fileproposal">Unggah Proposal Berkas PI</label>
 					<input name="f_fileproposal" type="file" class="form-control form-control-user" id="fileproposal" accept="application/pdf">
 				</div>
-				<a class="btn btn-primary text-white" onClick="getPreview()">Preview</a>
+				<a class="btn btn-primary text-white" onClick="getPreview()">Preview Lembar Pengesahan</a>
+				<div id="v">
+
+				</div>
 			</form>
-
-			<div id="v">
-
-			</div>
 		</div>
 	</div>
 @endsection
@@ -44,12 +59,10 @@ var pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 		function preview(location){
-				console.log("p")
 				function base64ToUint8Array(base64) {
             var raw = atob(base64);
             var uint8Array = new Uint8Array(raw.length);
             for (var i = 0; i < raw.length; i++) {
-							console.log(i)
               uint8Array[i] = raw.charCodeAt(i);
             }
             return uint8Array;
@@ -94,20 +107,20 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
                 canvas.style.width = viewport.width + 'px'
                 canvas.style.height = viewport.height + 'px'
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
-                //canvas.height = viewport.height;
-                //canvas.width = viewport.width * window.devicePixelRatio;
-                //canvas.style.width = viewport.width + 'px';
 
-                document.getElementById('v').appendChild(canvas);
+								const uploadBtn = document.createElement('input');
+								uploadBtn.classList.add("btn");
+								uploadBtn.classList.add("btn-block");
+								uploadBtn.classList.add("btn-success");
+								uploadBtn.name = "f_upload";
+								uploadBtn.type = "submit";
+								uploadBtn.value="Submit Proposal";
+
+								const wrapper = document.getElementById('v');
+                wrapper.appendChild(canvas);
+								wrapper.appendChild(uploadBtn);
 
                 page.render({canvasContext: ctx, viewport: originalviewport});
-
-
-                currPage++;
-                if ( thePDF !== null && currPage <= numPages )
-                {
-                    thePDF.getPage( currPage ).then( handlePages );
-                }
 						}
 		}
 
@@ -120,7 +133,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
 			//var tgl_sah = "01-02-2021"
 			if(lokasi.length <= 1 || tgl_sah.length <= 1){
 
-				alert("P");
+				alert("Nama Industri/Instansi dan Tanggal Pengesahan Wajib Diisi!");
 				return;
 			}
 

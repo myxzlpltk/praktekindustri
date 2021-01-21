@@ -53,6 +53,7 @@ class PdfmakerController extends Controller
 		$pathFile = storage_path("app/public/tmp/$fileName");
 
 		$fpdf->Output('F',$pathFile);
+		session(['preview_pathfile' => "public/tmp/$fileName"]);
 		$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
 		return $b64Doc;
 

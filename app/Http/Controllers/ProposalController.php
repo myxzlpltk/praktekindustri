@@ -57,7 +57,30 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        //
+			Storage::disk('local')->delete(session('preview_pathfile'));
+			$this->validate($request, [
+        'f_fileproposal'     => 'required|mimes:pdf',
+        'f_lokasi'     => 'required',
+				'f_tgl_sah'   => 'required',
+			]);
+
+
+			$file_proposal = $request->file('f_fileproposal');
+			$file_proposal->storeAs("proposal/", $file_proposal->hashName());
+
+			$proposal = Proposal::create([
+				'file_proposal' => $file_proposal -> hashName(),
+				'lokasi_prakerin' => $request->f_lokasi,
+				'tgl_sah' => $request->f_tgl_sah,
+				'status' => 'Tunggu_TTD',
+				'user_id' => 1 //to-be replaced later
+			]);
+
+			if($proposal){
+				return redirect()->route('proposal.index')->with(['success' => 'Data Berhasil Disimpan!']);
+			} else{
+				return redirect()->route('proposal.create')->with(['failed' => 'Terjadi Kesalahan!']);
+			}
     }
 
     /**
