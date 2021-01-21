@@ -58,7 +58,7 @@ class PdfmakerController extends Controller
 
 		}
 
-		public function show(Request $request){
+		public function store(Request $request){
 			$fileName = $this->index($request->lokasi_value, $request->tgl_sah_value);
 			return response()->json(array('preview'=> $fileName), 200);
 		}

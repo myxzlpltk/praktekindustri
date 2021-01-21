@@ -125,13 +125,12 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
 			}
 
 			$.ajax({
-					type:'GET',
-					url:'/berkas/show',
+					type:'POST',
+					url:'/berkas',
 					data:{_token: $('input[name ="_token"]').val(),
 								lokasi_value: lokasi,
 								tgl_sah_value: tgl_sah},
 					success:function(data) {
-						console.log(data.preview)
 						preview(data.preview)
 					}
 			});
