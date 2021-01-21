@@ -16,7 +16,7 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        //
+
     }
 
     /**
@@ -25,6 +25,7 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function create(){
+			/*
     	$data = [
     		'tempat' => 'Bappeda Malang',
 				'tanggal' => now()->translatedFormat('d F Y'),
@@ -43,8 +44,10 @@ class ProposalController extends Controller{
 			$pathFile = storage_path("app/public/tmp/$fileName");
 			$templateProcessor->saveAs($pathFile);
 
-			return response()->download("storage/tmp/$fileName")->deleteFileAfterSend();
-//    	return view('proposals.create');
+			return response()->download("storage/tmp/$fileName")->deleteFileAfterSend();*/
+
+
+    	return view('proposals.create');
     }
 
     /**

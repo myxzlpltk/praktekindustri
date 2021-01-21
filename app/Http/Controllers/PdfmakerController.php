@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 
 class PdfmakerController extends Controller
@@ -19,9 +20,8 @@ class PdfmakerController extends Controller
     {
         // ...
     }
-	public function index(){
-		$lokasi = "Google Inc";
-		$today = Carbon::now()->isoFormat('D MMMM Y');
+	public function index($lokasi, $tgl_sah){
+		$today = Carbon::parse($tgl_sah)->isoFormat('D MMMM Y');
 
 		$fpdf = new Fpdf('P', 'mm', 'A4');
 		$fpdf->AddPage();
@@ -48,7 +48,18 @@ class PdfmakerController extends Controller
 		$fpdf->SetXY($x+115, $y);
 		$fpdf->MultiCell(59, 6, 'Achmad Hamdan, S.Pd., M.Pd. NITP 6400201819443', 0, 'L');
 		$fpdf->Image('./img/border-pdf.png', 50, $fpdf->getY() + 30, 130, 3);
-    $fpdf->Output('D','filename.pdf');
+		$rand = Str::random(16);
+		$fileName = "$rand.pdf";
+		$pathFile = storage_path("app/public/tmp/$fileName");
 
-    }
+		$fpdf->Output('F',$pathFile);
+		$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
+		return $b64Doc;
+
+		}
+
+		public function show(Request $request){
+			$fileName = $this->index($request->lokasi_value, $request->tgl_sah_value);
+			return response()->json(array('preview'=> $fileName), 200);
+		}
 }

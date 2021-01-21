@@ -19,4 +19,4 @@ Route::get('/', function () {
 
 Route::resource('proposals', ProposalController::class);
 
-Route::resource('/testlembar', PdfmakerController::class);
+Route::resource('/berkas', PdfmakerController::class);
