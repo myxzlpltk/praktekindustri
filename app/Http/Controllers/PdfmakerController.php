@@ -2,7 +2,7 @@
 
 /**
  * UNLIMITED SPAGHETTI CODE WORKS
-*/
+ */
 
 namespace App\Http\Controllers;
 
@@ -11,20 +11,9 @@ use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Response;
 
-class PdfmakerController extends Controller
-{
-		/**
-	 * Provision a new web server.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-    public function __invoke()
-    {
-        // ...
-    }
+class PdfmakerController extends Controller{
+
 	public function index($lokasi, $tgl_sah){
 		$today = Carbon::parse($tgl_sah)->isoFormat('D MMMM Y');
 
@@ -69,22 +58,21 @@ class PdfmakerController extends Controller
 		session(['preview_pathfile' => "public/tmp/$fileName"]);
 		$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
 		return $b64Doc;
+	}
 
+	public function store(Request $request){
+		if($request->session()->has('preview_pathfile')){
+			Storage::disk('local')->delete(session('preview_pathfile'));
+			$request->session()->forget('preview_pathfile');
 		}
 
-		public function store(Request $request){
-			if($request->session()->has('preview_pathfile')){
-				Storage::disk('local')->delete(session('preview_pathfile'));
-				$request->session()->forget('preview_pathfile');
-			}
+		$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->index($request->lokasi_value, $request->tgl_sah_value);
+		return response()->json(array('preview'=> $pdfData), 200);
+	}
 
-			$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->index($request->lokasi_value, $request->tgl_sah_value);
-			return response()->json(array('preview'=> $pdfData), 200);
-		}
-
-		public function getPdfFromFile($fileName){
-			$pathFile = storage_path("app/public/lembar_sah/ttd_koor/$fileName");
-			$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
-			return $b64Doc;
-		}
+	public function getPdfFromFile($fileName){
+		$pathFile = storage_path("app/public/lembar_sah/ttd_koor/$fileName");
+		$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
+		return $b64Doc;
+	}
 }

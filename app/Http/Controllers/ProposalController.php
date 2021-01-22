@@ -5,158 +5,141 @@ namespace App\Http\Controllers;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use PhpOffice\PhpWord\TemplateProcessor;
 
 class ProposalController extends Controller{
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(){
-			$proposals = Proposal::latest()->paginate(10);
-			return view('proposals.waiting_list', compact('proposals'));
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+	 */
+	public function index(){
+		return view('proposals.waiting_list', [
+			'proposals' => Proposal::latest()->paginate(10)
+		]);
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(){
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+	 */
+	public function create(){
+		return view('proposals.create');
+	}
 
-			/*
-    	$data = [
-    		'tempat' => 'Bappeda Malang',
-				'tanggal' => now()->translatedFormat('d F Y'),
-				'nama_kajur' => config('settings.nama_kajur'),
-				'nip_kajur' => config('settings.nip_kajur'),
-				'nama_koor' => config('settings.nama_koor'),
-				'nip_koor' => config('settings.nip_koor'),
-			];
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function store(Request $request){
+		/* Unset session preview pathfile */
+		if($request->session()->has('preview_pathfile')){
+			Storage::disk('local')->delete(session('preview_pathfile'));
+			$request->session()->forget('preview_pathfile');
+		}
 
-    	$templateProcessor = new TemplateProcessor(storage_path('templates/lembar_pengesahan_proposal_pi.docx'));
-			$templateProcessor->setValues($data);
-			$templateProcessor->setImageValue('ttd_kajur', storage_path('templates/kajur_signature.png'));
+		/* validasi data */
+		$request->validate([
+			'f_fileproposal' => 'required|mimes:pdf',
+			'f_lokasi' => 'required',
+			'f_tgl_sah' => 'required',
+		]);
 
-			$rand = Str::random(16);
-			$fileName = "$rand.docx";
-			$pathFile = storage_path("app/public/tmp/$fileName");
-			$templateProcessor->saveAs($pathFile);
+		/* Request file */
+		$file_proposal = $request->file('f_fileproposal');
+		$file_proposal->storeAs("proposal/", $file_proposal->getClientOriginalName());
 
-			return response()->download("storage/tmp/$fileName")->deleteFileAfterSend();*/
+		$proposal = new Proposal;
+		$proposal->file_proposal = $file_proposal->getClientOriginalName();
+		$proposal->lokasi_prakerin = $request->f_lokasi;
+		$proposal->tgl_sah = $request->f_tgl_sah;
+		$proposal->status = 'Tunggu_TTDKoor';
+		$proposal->user_id = 1; //to-be replaced later
 
+		if($proposal->save()){
+			return redirect()->route('proposals.index')->with(['success' => 'Data Berhasil Disimpan!']);
+		} else{
+			return redirect()->route('proposals.create')->with(['failed' => 'Terjadi Kesalahan!']);
+		}
+	}
 
-    	return view('proposals.create');
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Models\Proposal  $proposal
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+	 */
+	public function show(Proposal $proposal){
+		return view('proposals.pengesahan');
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request){
-			if($request->session()->has('preview_pathfile')){
-				Storage::disk('local')->delete(session('preview_pathfile'));
-				$request->session()->forget('preview_pathfile');
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Models\Proposal  $proposal
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(Proposal $proposal){
+
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Models\Proposal  $proposal
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function update(Request $request, Proposal $proposal){
+		$pr = Proposal::find($proposal->id);
+		$tahap = ($pr->status == "Tunggu_TTDKajur") ? 2 : 1;
+		if($request->f_p_st == "tolak"){
+			$pr->status= ($tahap == 2) ? "Ditolak_Kajur" : "Ditolak_Koor";
+
+			if($tahap == 1){
+				$pr->alasanKoor = $request->f_alasan;
+			} else{$pr->alasanKajur = $request->f_alasan;}
+
+		} else if($request->f_p_st == "valid"){
+			list($ext, $data)   = explode(';', $request->f_d);
+			list(, $data)       = explode(',', $data);
+			$data = base64_decode($data);
+
+			$fileName = $pr->user->name."_".date("d-m-Y",time()).'.pdf';
+			$filePath = ($tahap == 2) ? "app/public/lembar_sah/ttd_sah/$fileName" : "app/public/lembar_sah/ttd_koor/$fileName";
+			file_put_contents(storage_path($filePath), $data);
+
+			$pr->status = ($tahap == 2) ? "Disahkan" : "Tunggu_TTDKajur";
+			$pr->lembar_sah = $fileName;
+		}
+
+		if($pr->save()){
+			if($tahap == 2){
+				Storage::disk('public')->delete("lembar_sah/ttd_koor/{$pr->lembar_sah}");
 			}
-			$this->validate($request, [
-        'f_fileproposal'     => 'required|mimes:pdf',
-        'f_lokasi'     => 'required',
-				'f_tgl_sah'   => 'required',
-			]);
 
+			return redirect()
+				->route('proposals.index')
+				->with(['success' => 'Data berhasil diupdate!']);
+		}
+		else{
+			return redirect()
+				->route('proposals.index')
+				->with(['failed' => 'Data gagal diupdate!']);
+		}
 
-			$file_proposal = $request->file('f_fileproposal');
-			$file_proposal->storeAs("proposal/", $file_proposal->getClientOriginalName());
+	}
 
-			$proposal = new Proposal;
-			$proposal->file_proposal = $file_proposal->getClientOriginalName();
-			$proposal->lokasi_prakerin = $request->f_lokasi;
-			$proposal->tgl_sah = $request->f_tgl_sah;
-			$proposal->status = 'Tunggu_TTDKoor';
-			$proposal->user_id = 1; //to-be replaced later
-
-
-			if($proposal->save()){
-				return redirect()->route('proposals.index')->with(['success' => 'Data Berhasil Disimpan!']);
-			} else{
-				return redirect()->route('proposals.create')->with(['failed' => 'Terjadi Kesalahan!']);
-			}
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Proposal  $proposal
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Proposal $proposal){
-			return view('proposals.pengesahan', compact('proposal'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Proposal  $proposal
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Proposal $proposal){
-
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Proposal  $proposal
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Proposal $proposal){
-				$pr = Proposal::find($proposal->id);
-				$tahap = ($pr->status == "Tunggu_TTDKajur") ? 2 : 1;
-				if($request->f_p_st == "tolak"){
-					$pr->status= ($tahap == 2) ? "Ditolak_Kajur" : "Ditolak_Koor";
-
-					if($tahap == 1){
-						$pr->alasanKoor = $request->f_alasan;
-					} else{$pr->alasanKajur = $request->f_alasan;}
-
-				} else if($request->f_p_st == "valid"){
-					list($ext, $data)   = explode(';', $request->f_d);
-					list(, $data)       = explode(',', $data);
-					$data = base64_decode($data);
-
-					$fileName = $pr->user->name."_".date("d-m-Y",time()).'.pdf';
-					$filePath = ($tahap == 2) ? "app/public/lembar_sah/ttd_sah/$fileName" : "app/public/lembar_sah/ttd_koor/$fileName";
-					file_put_contents(storage_path($filePath), $data);
-
-					$pr->status = ($tahap == 2) ? "Disahkan" : "Tunggu_TTDKajur";
-					$pr->lembar_sah = $fileName;
-				}
-
-				if($pr->save()){
-						if($tahap == 2){
-							unlink(storage_path("app\\public\\lembar_sah\\ttd_koor\\$pr->lembar_sah")); //Storage::delete() error idk why
-						}
-						return redirect()->route('proposals.index')->with(['success' => 'Data berhasil diupdate!']);
-				} else{
-						return redirect()->route('proposals.index')->with(['failed' => 'Data gagal diupdate!']);
-				}
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Proposal  $proposal
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Proposal $proposal){
-        //
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Models\Proposal  $proposal
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Proposal $proposal){
+		//
+	}
 }

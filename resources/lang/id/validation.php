@@ -147,5 +147,8 @@ return [
     */
 
     'attributes' => [
+		'f_fileproposal' => 'Berkas Proposal',
+		'f_tgl_sah' => 'Tanggal Pengesahan',
+    	'f_lokasi' => 'Nama Industri/Instansi',
     ],
 ];
