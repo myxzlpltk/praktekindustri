@@ -116,7 +116,28 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Proposal $proposal){
-        //
+				$pr = Proposal::find($proposal->id);
+				if($request->f_p_st == "tolak"){
+					$pr->status= "Ditolak_Koor";
+					$pr->alasanKoor = $request->f_alasan;
+				} else if($request->f_p_st == "valid"){
+					list($ext, $data)   = explode(';', $request->f_d);
+					list(, $data)       = explode(',', $data);
+					$data = base64_decode($data);
+
+					$fileName = $pr->user->name.'.pdf';
+					file_put_contents(storage_path("app/public/lembar_sah/ttd_koor/$fileName"), $data);
+
+					$pr->status = "Tunggu_TTDKajur";
+					$pr->lembar_sah = $fileName;
+				}
+
+				if($pr->save()){
+						return redirect()->route('proposals.index')->with(['success' => 'Data berhasil diupdate!']);
+				} else{
+						return redirect()->route('proposals.index')->with(['failed' => 'Data gagal diupdate!']);
+				}
+
     }
 
     /**

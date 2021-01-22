@@ -18,7 +18,7 @@ class CreateProposalsTable extends Migration
 						$table->string('lokasi_prakerin');
 						$table->string('tgl_sah');
 						$table->string('file_proposal');
-						$table->string('status');
+						$table->string('status'); //Tunggu_TTDKoor, Tunggu_TTDKajur, Ditolak_Koor, Ditolak_Kajur, Disahkan
 						$table->string('lembar_sah')->nullable();
 						$table->foreignId('user_id')->constrained('users');
             $table->timestamps();

@@ -11,6 +11,16 @@
 			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Daftar Tunggu Proposal</h6>
 		</div>
 		<div class="card-body">
+
+			@if(session()->has('success'))
+			<div class="alert alert-success">
+				{{session('success')}}
+			</div>
+			@elseif(session()->has('failed'))
+			<div class="alert alert-danger">
+				{{session('failed')}}
+			</div>
+			@endif
 			<div class="table-responsive">
 				<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 					 <div class="row">
@@ -31,15 +41,19 @@
 													<td>{{$p->user->name}}</td>
 													<td>{{$p->lokasi_prakerin}}</td>
 													<td>{{$p->tgl_sah_view()}}</td>
-													<td><a class=
-														@if ($p->status == "Tunggu_TTD")
-														"badge badge-warning"
+
+														@if ($p->status == "Tunggu_TTDKoor"))
+														<td><a class="badge badge-warning">Menunggu TTD Koordinator</a></td>
+														@elseif ($p->status == "Tunggu_TTDKajur")
+														<td><a class="badge badge-warning">Menunggu TTD Ketua Jurusan</a></td>
+														@elseif ($p->status == "Ditolak_Koor")
+														<td><a class="badge badge-danger">Ditolak Oleh Koordinator</a></td>
+														@elseif ($p->status == "Ditolak_Kajur")
+														<td><a class="badge badge-danger">Ditolak Oleh Ketua Jurusan</a></td>
 														@elseif ($p->status == "Disahkan")
-														"badge badge-success"
-														@elseif ($p->status == "Ditolak")
-														"badge badge-danger"
+														<td><a class="badge badge-success">Telah Disahkan</a></td>
 														@endif
-														>{{$p->status}}</a></td>
+
 													<td><a class="btn btn-primary" href="{{ route('proposals.edit', $p->id) }}">Detail</a></td>
 												</tr>
 											@empty

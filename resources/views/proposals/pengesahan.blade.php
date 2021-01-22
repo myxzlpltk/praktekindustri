@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Pendaftaran Proposal")
+@section('title', "Pengesahan Proposal")
 
 @push('stylesheets')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
@@ -10,7 +10,6 @@
 <script>
 	var f_canvas;
 	var ori_canvas = true;
-
 
 	var pdfjsLib = window['pdfjs-dist/build/pdf'];
 	// The workerSrc property shall be specified.
@@ -74,13 +73,16 @@
 									ttdBtn.innerHTML="Masukkan Tanda Tangan";
 									ttdBtn.onclick = () => {$("#ttdInp").click()};
 
-									const uploadBtn = document.createElement('input');
+									const uploadBtn = document.createElement('a');
 									uploadBtn.classList.add("btn");
 									uploadBtn.classList.add("btn-block");
 									uploadBtn.classList.add("btn-success");
-									uploadBtn.name = "f_upload";
-									uploadBtn.type = "submit";
-									uploadBtn.value="Sahkan Proposal";
+									uploadBtn.classList.add("disabled");
+									//uploadBtn.name = "f_upload";
+									uploadBtn.id = 'upload_btn'
+									//uploadBtn.type = "submit";
+									uploadBtn.onclick = () => {getPDF()}
+									uploadBtn.innerHTML="Konfirmasi Tanda Tangan";
 
 
 									const wrapper = document.getElementById('v');
@@ -125,6 +127,7 @@
 		}
 
 		function getPDF(){
+			f_canvas.discardActiveObject().renderAll();
 			var canvas = document.getElementsByClassName('pdf-view')[0]
 			var imgWidth = 300;
 			var pageHeight = 300;
@@ -137,17 +140,21 @@
 
 			doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
 			heightLeft -= pageHeight;
-			doc.save( 'file.pdf');
+			document.getElementById('d').value = doc.output('datauristring');
+			document.getElementById('p_st').value = "valid";
+			document.getElementById('sah_form').submit();
 	}
 
-		function readURL(input) {
+	function readURL(input) {
+		const uploadBtn = document.getElementById('upload_btn');
+		if(uploadBtn.classList.contains('disabled')){
+			uploadBtn.classList.remove('disabled');
+		}
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
-				console.log(e.target.result);
 				if(ori_canvas){
-
 					var bg = new fabric.Image();
 					bg.setSrc(document.getElementsByClassName('pdf-view')[0].toDataURL("image/png"), () => {
 							bg.set({
@@ -161,6 +168,10 @@
 					ori_canvas = false;
 				}
 				fabric.Image.fromURL(e.target.result, function(oImg) {
+							oImg.set({
+								top: 750,
+								left: 570
+							});
 							f_canvas.add(oImg);
 					});
 			}
@@ -168,6 +179,7 @@
 			reader.readAsDataURL(input.files[0]); // convert to base64 string
 		}
 	}
+
 	</script>
 @endpush
 
@@ -177,23 +189,73 @@
 			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Formulir</h6>
 		</div>
 		<div class="card-body">
-			<form action="#" method="POST" enctype="multipart/form-data">
+			<table class="table">
+				<tr>
+					<th>Nama</th>
+					<td>:</td>
+					<td>{{$proposal->user->name}}</td>
+				</tr>
+				<tr>
+					<th>NIM</th>
+					<td>:</td>
+					<td>190535646020</td>
+				</tr>
+				<tr>
+					<th>Prodi</th>
+					<td>:</td>
+					<td>S1 Teknik Informatika</td>
+				</tr>
+				<tr>
+					<th>Nama Industri/Instansi</th>
+					<td>:</td>
+					<td>{{$proposal->lokasi_prakerin}}</td>
+				</tr>
+				<tr>
+					<th>Tanggal Pengesahan</th>
+					<td>:</td>
+					<td>{{$proposal->tgl_sah_view()}}</td>
+				</tr>
+				<tr>
+					<th>File Proposal PI</th>
+					<td>:</td>
+					<td><a href="{{Illuminate\Support\Facades\Storage::disk('local')->url('proposal/'.$proposal->file_proposal)}}">{{$proposal->file_proposal}}</a></td>
+				</tr>
+			</table>
+			<div id="b">
+				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
+			</div>
+
+			<a class="btn btn-success text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
+			<a class="btn btn-danger text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
+
+			<form action="{{ route('proposals.update', $proposal->id) }}" id="sah_form" method="POST" enctype="multipart/form-data">
 				@csrf
-
-				<a class="btn btn-primary text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
-				<a class="btn btn-primary text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
-				<div id="b">
-					<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
-				</div>
-				<div id="v">
-
+				@method('PUT')
+				<input id="d" name="f_d" style="display: none;" name="f_d" type="text"> {{---pdf data uri---}}
+				<input id="p_st" name="f_p_st" style="display: none;" type="hidden" value="tolak"> {{---validasi/tolak---}}
+				<div id="tolak_form" class="form-group mt-3" style="display: none;" >
+					<label class="text-danger text-bold">Alasan Penolakan:</label>
+					<input type="text" class="form-control is-invalid" name="f_alasan" placeholder="Masukkan alasan penolakan...">
+					<a class="btn btn-danger btn-block mt-2">Tolak Proposal</a>
 				</div>
 			</form>
+
+
+			<div id="v" class="mt-3">
+
+			</div>
 		</div>
 	</div>
 @endsection
 
 @push('scripts')
-
-
+<script>
+	function getTolak(){
+		document.getElementById('valid_btn').classList.add('disabled');
+		document.getElementById('tolak_btn').classList.add('disabled');
+		document.getElementById('tolak_form').style.removeProperty('display');
+		document.getElementById('p_st').value = "tolak";
+		document.getElementById('sah_form').submit();
+	}
+</script>
 @endpush
