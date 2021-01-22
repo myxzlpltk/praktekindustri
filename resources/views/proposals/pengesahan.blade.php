@@ -3,6 +3,7 @@
 @section('title', "Pengesahan Proposal")
 
 @push('stylesheets')
+@if($proposal->status != "Disahkan")
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js" integrity="sha512-Pdu3zoEng2TLwwjnDne3O7zaeWZfEJHU5B63T+zLtME/wg1zfeSH/1wrtOzOC37u2Y1Ki8pTCdKsnbueOlFlMg==" crossorigin="anonymous"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -114,16 +115,33 @@
 				const lokasi = "{{$proposal->lokasi_prakerin}}";
 				const tgl_sah = '{{$proposal->tgl_sah}}';
 
+				@if($proposal->status == "Tunggu_TTDKoor")
 				$.ajax({
 						type:'POST',
 						url:'/berkas',
 						data:{_token: $('input[name ="_token"]').val(),
 									lokasi_value: lokasi,
-									tgl_sah_value: tgl_sah},
+									tgl_sah_value: tgl_sah,
+									ttd: "koor"},
 						success:function(data) {
 							preview(data.preview)
 						}
 				});
+				@elseif($proposal->status == "Tunggu_TTDKajur")
+				$.ajax({
+						type:'POST',
+						url:'/berkas',
+						data:{_token: $('input[name ="_token"]').val(),
+									lokasi_value: lokasi,
+									tgl_sah_value: tgl_sah,
+									ttd: "kajur",
+									fileName: "{{$proposal->lembar_sah}}"
+								},
+						success:function(data) {
+							preview(data.preview)
+						}
+				});
+				@endif
 		}
 
 		function getPDF(){
@@ -181,12 +199,13 @@
 	}
 
 	</script>
+@endif
 @endpush
 
 @section('content')
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Formulir</h6>
+			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Detail Pengajuan</h6>
 		</div>
 		<div class="card-body">
 			<table class="table">
@@ -225,6 +244,7 @@
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
 			</div>
 
+			@if($proposal->status != "Disahkan")
 			<a class="btn btn-success text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
 			<a class="btn btn-danger text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
 
@@ -244,6 +264,7 @@
 			<div id="v" class="mt-3">
 
 			</div>
+			@endif
 		</div>
 	</div>
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Pendaftaran Proposal")
+@section('title', "Pengajuan Proposal")
 
 @push('stylesheets')
 @endpush

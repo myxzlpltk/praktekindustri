@@ -70,7 +70,13 @@ class PdfmakerController extends Controller
 				$request->session()->forget('preview_pathfile');
 			}
 
-			$fileName = $this->index($request->lokasi_value, $request->tgl_sah_value);
-			return response()->json(array('preview'=> $fileName), 200);
+			$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->index($request->lokasi_value, $request->tgl_sah_value);
+			return response()->json(array('preview'=> $pdfData), 200);
+		}
+
+		public function getPdfFromFile($fileName){
+			$pathFile = storage_path("app/public/lembar_sah/ttd_koor/$fileName");
+			$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
+			return $b64Doc;
 		}
 }

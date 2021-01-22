@@ -46,11 +46,11 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
 										<span>Dasbor</span>
 								</a>
-								<a class="nav-link" href="#">
+								<a class="nav-link" href="{{ route('proposals.create') }}">
 									<i class="fas fa-fw fa-book-reader"></i>
-									<span>Pendaftaran Proposal</span>
+									<span>Pengajuan Proposal</span>
 								</a>
-								<a class="nav-link" href="#">
+								<a class="nav-link" href="{{ route('proposals.index') }}">
 									<i class="fas fa-fw fa-stamp"></i>
 									<span>Pengesahan Proposal</span>
 								</a>
