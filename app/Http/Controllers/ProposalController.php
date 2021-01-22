@@ -122,7 +122,7 @@ class ProposalController extends Controller{
 				if($request->f_p_st == "tolak"){
 					$pr->status= ($tahap == 2) ? "Ditolak_Kajur" : "Ditolak_Koor";
 
-					if($tahap == 2){
+					if($tahap == 1){
 						$pr->alasanKoor = $request->f_alasan;
 					} else{$pr->alasanKajur = $request->f_alasan;}
 

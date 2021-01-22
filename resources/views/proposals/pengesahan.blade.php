@@ -3,7 +3,7 @@
 @section('title', "Pengesahan Proposal")
 
 @push('stylesheets')
-@if($proposal->status != "Disahkan")
+@if(!in_array($proposal->status, array('Disahkan','Ditolak_Koor', 'Ditolak_Kajur'), true ))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js" integrity="sha512-Pdu3zoEng2TLwwjnDne3O7zaeWZfEJHU5B63T+zLtME/wg1zfeSH/1wrtOzOC37u2Y1Ki8pTCdKsnbueOlFlMg==" crossorigin="anonymous"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -254,12 +254,21 @@
 					<td><a class="badge badge-success">Telah Disahkan</a></td>
 					@endif
 				</tr>
+				@if(in_array($proposal->status, array('Ditolak_Koor', 'Ditolak_Kajur'), true ))
+					<th>Alasan Penolakan</th>
+					<td>:</td>
+					@if($proposal->status == "Ditolak_Koor")
+						<td class="text-danger">{{$proposal->alasanKoor}}</td>
+					@elseif($proposal->status == "Ditolak_Kajur")
+						<td class="text-danger">{{$proposal->alasanKajur}}</td>
+					@endif
+				@endif
 			</table>
 			<div id="b">
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
 			</div>
 
-			@if($proposal->status != "Disahkan")
+			@if(!in_array($proposal->status, array('Disahkan','Ditolak_Koor', 'Ditolak_Kajur'), true ))
 			<a class="btn btn-success text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
 			<a class="btn btn-danger text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
 
@@ -271,7 +280,7 @@
 				<div id="tolak_form" class="form-group mt-3" style="display: none;" >
 					<label class="text-danger text-bold">Alasan Penolakan:</label>
 					<input type="text" class="form-control is-invalid" name="f_alasan" placeholder="Masukkan alasan penolakan...">
-					<a class="btn btn-danger btn-block mt-2">Tolak Proposal</a>
+					<input type="submit" class="btn btn-danger btn-block mt-2" value="Tolak Proposal">
 				</div>
 			</form>
 
@@ -291,7 +300,6 @@
 		document.getElementById('tolak_btn').classList.add('disabled');
 		document.getElementById('tolak_form').style.removeProperty('display');
 		document.getElementById('p_st').value = "tolak";
-		document.getElementById('sah_form').submit();
 	}
 </script>
 @endpush
