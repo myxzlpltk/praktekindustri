@@ -139,10 +139,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
 			}
 			const lokasi = document.getElementById('lokasi').value;
 			const tgl_sah = document.getElementById('tgl_sah').value;
-			//alert(tgl_sah);
-
-			//var lokasi = "Google"
-			//var tgl_sah = "01-02-2021"
 			if(lokasi.length <= 1 || tgl_sah.length <= 1){
 
 				alert("Nama Industri/Instansi dan Tanggal Pengesahan Wajib Diisi!");
@@ -154,7 +150,9 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
 					url:'/berkas',
 					data:{_token: $('input[name ="_token"]').val(),
 								lokasi_value: lokasi,
-								tgl_sah_value: tgl_sah},
+								tgl_sah_value: tgl_sah,
+								prodi: "" //WIP
+							},
 					success:function(data) {
 						preview(data.preview)
 					}

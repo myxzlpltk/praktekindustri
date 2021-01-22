@@ -122,7 +122,9 @@
 						data:{_token: $('input[name ="_token"]').val(),
 									lokasi_value: lokasi,
 									tgl_sah_value: tgl_sah,
-									ttd: "koor"},
+									ttd: "koor",
+									prodi: "" //WIP
+								},
 						success:function(data) {
 							preview(data.preview)
 						}
@@ -135,7 +137,8 @@
 									lokasi_value: lokasi,
 									tgl_sah_value: tgl_sah,
 									ttd: "kajur",
-									fileName: "{{$proposal->lembar_sah}}"
+									fileName: "{{$proposal->lembar_sah}}",
+									prodi: "" //WIP
 								},
 						success:function(data) {
 							preview(data.preview)
