@@ -16,7 +16,8 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-
+			$proposals = Proposal::latest()->paginate(10);
+			return view('proposals.waiting_list', compact('proposals'));
     }
 
     /**
@@ -57,7 +58,10 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-			Storage::disk('local')->delete(session('preview_pathfile'));
+			if($request->session()->has('preview_pathfile')){
+				Storage::disk('local')->delete(session('preview_pathfile'));
+				$request->session()->forget('preview_pathfile');
+			}
 			$this->validate($request, [
         'f_fileproposal'     => 'required|mimes:pdf',
         'f_lokasi'     => 'required',
@@ -66,20 +70,20 @@ class ProposalController extends Controller{
 
 
 			$file_proposal = $request->file('f_fileproposal');
-			$file_proposal->storeAs("proposal/", $file_proposal->hashName());
+			$file_proposal->storeAs("proposal/", $file_proposal->getClientOriginalName());
 
-			$proposal = Proposal::create([
-				'file_proposal' => $file_proposal -> hashName(),
-				'lokasi_prakerin' => $request->f_lokasi,
-				'tgl_sah' => $request->f_tgl_sah,
-				'status' => 'Tunggu_TTD',
-				'user_id' => 1 //to-be replaced later
-			]);
+			$proposal = new Proposal;
+			$proposal->file_proposal = $file_proposal->getClientOriginalName();
+			$proposal->lokasi_prakerin = $request->f_lokasi;
+			$proposal->tgl_sah = $request->f_tgl_sah;
+			$proposal->status = 'Tunggu_TTD';
+			$proposal->user_id = 1; //to-be replaced later
 
-			if($proposal){
-				return redirect()->route('proposal.index')->with(['success' => 'Data Berhasil Disimpan!']);
+
+			if($proposal->save()){
+				return redirect()->route('proposals.index')->with(['success' => 'Data Berhasil Disimpan!']);
 			} else{
-				return redirect()->route('proposal.create')->with(['failed' => 'Terjadi Kesalahan!']);
+				return redirect()->route('proposals.create')->with(['failed' => 'Terjadi Kesalahan!']);
 			}
     }
 
@@ -100,7 +104,8 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function edit(Proposal $proposal){
-        //
+
+        return view('proposals.pengesahan', compact('proposal'));
     }
 
     /**

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 
 class PdfmakerController extends Controller
@@ -37,15 +38,19 @@ class PdfmakerController extends Controller
 		$fpdf->Cell(210, 20, 'Menyetujui,', 0, 1.15, 'C');
 		$fpdf->SetFont('Times', '', 12);
 		$fpdf->Cell(40, 0, '', 0);
+		$xKet = $fpdf->getX();
 		$fpdf->Cell(75, 45, 'Ketua Jurusan Teknik Elektro,', 0, 0);
+		$fpdf->setX($fpdf->getX()+5);
 		$fpdf->Cell(75, 45, 'Koordinator Praktik Industri,', 0, 1.15);
 		$fpdf->Cell(-75);
 		//$fpdf->Cell(40, 0, '', 1);
 		$y = $fpdf->getY();
-		$fpdf->MultiCell(59, 6, 'Dr. Hakkun Elmunsyah, S.T., M.T. NIP 196509161995121001', 0, 'L');
+		$fpdf->setX($xKet);
+		$fpdf->MultiCell(75, 6, 'Aji Prasetya Wibawa, S.T., M.M.T., Ph.D. NIP 197912182005011001', 0, 'L');
 		$x = $fpdf->getX();
 
-		$fpdf->SetXY($x+115, $y);
+		$fpdf->SetXY($x+120, $y);
+		//$fpdf->MultiCell(70, 6, 'Kartika Candra Kirana, S.Pd., M. Kom NIP 199105012019032030', 0, 'L');
 		$fpdf->MultiCell(59, 6, 'Achmad Hamdan, S.Pd., M.Pd. NITP 6400201819443', 0, 'L');
 		$fpdf->Image('./img/border-pdf.png', 50, $fpdf->getY() + 30, 130, 3);
 		$rand = Str::random(16);
@@ -60,6 +65,11 @@ class PdfmakerController extends Controller
 		}
 
 		public function store(Request $request){
+			if($request->session()->has('preview_pathfile')){
+				Storage::disk('local')->delete(session('preview_pathfile'));
+				$request->session()->forget('preview_pathfile');
+			}
+
 			$fileName = $this->index($request->lokasi_value, $request->tgl_sah_value);
 			return response()->json(array('preview'=> $fileName), 200);
 		}

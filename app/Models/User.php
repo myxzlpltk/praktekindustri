@@ -39,5 +39,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
+		];
+
+		/**
+		 * One to Many User - Proposal
+		 */
+		public function proposal(){
+			return $this->hasMany(Proposal::class);
+		}
 }
