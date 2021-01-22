@@ -11,7 +11,7 @@
 			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Formulir</h6>
 		</div>
 		<div class="card-body">
-			<form action="{{ route('proposals.store') }}" method="POST" enctype="multipart/form-data">
+			<form id="aju_form" action="{{ route('proposals.store') }}" method="POST" enctype="multipart/form-data">
 				@csrf
 
 				<div class="form-group">
@@ -42,7 +42,7 @@
 					<input name="f_fileproposal" type="file" class="form-control form-control-user" id="fileproposal" accept="application/pdf">
 				</div>
 				<a class="btn btn-primary text-white" onClick="getPreview()">Preview Lembar Pengesahan</a>
-				<div id="v">
+				<div id="v" style="overflow-x: scroll; overflow-y: hidden;">
 
 				</div>
 			</form>
@@ -82,14 +82,12 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
             });
 
             function handlePages(page){
-                var viewport = page.getViewport({scale: 1});
                 var canvas = document.createElement("canvas");
-                var canvasCtx = canvas.getContext('2d')
+								const wrapper = document.getElementById('v');
 
                 canvas.style.display = "block";
                 canvas.id = "page-"+currPage;
                 canvas.classList.add("pdf-view");
-
                 let ctx = canvas.getContext('2d')
                 let dpr = window.devicePixelRatio || 1
                 let bsr = ctx.webkitBackingStorePixelRatio ||
@@ -100,13 +98,21 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
                 let ratio = dpr / bsr
 
                 let originalviewport = page.getViewport({ scale: 1.5, });
-                var viewport = page.getViewport({scale:screen.availWidth / originalviewport.width,})
+								var viewport = page.getViewport({scale:screen.availWidth / originalviewport.width,})
+
                 viewport = originalviewport
                 canvas.width = viewport.width * ratio
                 canvas.height = viewport.height * ratio
                 canvas.style.width = viewport.width + 'px'
-                canvas.style.height = viewport.height + 'px'
-                ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+								canvas.style.height = viewport.height + 'px'
+								//pc: 1.5 892.92 1262.835 1339 1894
+								//mobile: 3 892.92 1262.835 2678 3788 ???
+								console.log(ratio, viewport.width, viewport.height, canvas.width, canvas.height)
+								ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+								if(ratio > 1.5){
+									ctx.scale(1/ratio, 1/ratio);
+									wrapper.style.height = "500px";
+								}
 
 								const uploadBtn = document.createElement('input');
 								uploadBtn.classList.add("btn");
@@ -114,17 +120,23 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build
 								uploadBtn.classList.add("btn-success");
 								uploadBtn.name = "f_upload";
 								uploadBtn.type = "submit";
+								uploadBtn.id = "upBtn";
 								uploadBtn.value="Submit Proposal";
 
-								const wrapper = document.getElementById('v');
-                wrapper.appendChild(canvas);
-								wrapper.appendChild(uploadBtn);
 
+								wrapper.appendChild(canvas);
+
+								document.getElementById('aju_form').appendChild(uploadBtn);
                 page.render({canvasContext: ctx, viewport: originalviewport});
 						}
 		}
 
 		function getPreview() {
+			const cek = document.getElementById('page-1');
+			if(cek != null){
+				cek.remove();
+				document.getElementById("upBtn").remove();
+			}
 			const lokasi = document.getElementById('lokasi').value;
 			const tgl_sah = document.getElementById('tgl_sah').value;
 			//alert(tgl_sah);
