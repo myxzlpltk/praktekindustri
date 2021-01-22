@@ -54,7 +54,7 @@
 														<td><a class="badge badge-success">Telah Disahkan</a></td>
 														@endif
 
-													<td><a class="btn btn-primary" href="{{ route('proposals.edit', $p->id) }}">Detail</a></td>
+													<td><a class="btn btn-primary" href="{{ route('proposals.show', $p->id) }}">Detail</a></td>
 												</tr>
 											@empty
 												<div class="alert alert-danger">

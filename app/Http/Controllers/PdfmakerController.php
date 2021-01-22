@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * UNLIMITED SPAGHETTI CODE WORKS
+*/
+
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
@@ -50,6 +54,10 @@ class PdfmakerController extends Controller
 		$x = $fpdf->getX();
 
 		$fpdf->SetXY($x+120, $y);
+
+		//WIP PRODI
+		//Bu kartika: PTI, TI, D3 ELKA
+		//Pak hamdan: PTE, TE, D3 TE
 		//$fpdf->MultiCell(70, 6, 'Kartika Candra Kirana, S.Pd., M. Kom NIP 199105012019032030', 0, 'L');
 		$fpdf->MultiCell(59, 6, 'Achmad Hamdan, S.Pd., M.Pd. NITP 6400201819443', 0, 'L');
 		$fpdf->Image('./img/border-pdf.png', 50, $fpdf->getY() + 30, 130, 3);

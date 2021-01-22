@@ -239,6 +239,21 @@
 					<td>:</td>
 					<td><a href="{{Illuminate\Support\Facades\Storage::disk('local')->url('proposal/'.$proposal->file_proposal)}}">{{$proposal->file_proposal}}</a></td>
 				</tr>
+				<tr>
+					<th>Status</th>
+					<td>:</td>
+					@if ($proposal->status == "Tunggu_TTDKoor")
+					<td><a class="badge badge-warning">Menunggu TTD Koordinator</a></td>
+					@elseif ($proposal->status == "Tunggu_TTDKajur")
+					<td><a class="badge badge-warning">Menunggu TTD Ketua Jurusan</a></td>
+					@elseif ($proposal->status == "Ditolak_Koor")
+					<td><a class="badge badge-danger">Ditolak Oleh Koordinator</a></td>
+					@elseif ($proposal->status == "Ditolak_Kajur")
+					<td><a class="badge badge-danger">Ditolak Oleh Ketua Jurusan</a></td>
+					@elseif ($proposal->status == "Disahkan")
+					<td><a class="badge badge-success">Telah Disahkan</a></td>
+					@endif
+				</tr>
 			</table>
 			<div id="b">
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">

@@ -95,7 +95,7 @@ class ProposalController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function show(Proposal $proposal){
-        //
+			return view('proposals.pengesahan', compact('proposal'));
     }
 
     /**
@@ -106,7 +106,7 @@ class ProposalController extends Controller{
      */
     public function edit(Proposal $proposal){
 
-        return view('proposals.pengesahan', compact('proposal'));
+
     }
 
     /**
@@ -131,7 +131,7 @@ class ProposalController extends Controller{
 					list(, $data)       = explode(',', $data);
 					$data = base64_decode($data);
 
-					$fileName = $pr->user->name.'.pdf';
+					$fileName = $pr->user->name."_".date("d-m-Y",time()).'.pdf';
 					$filePath = ($tahap == 2) ? "app/public/lembar_sah/ttd_sah/$fileName" : "app/public/lembar_sah/ttd_koor/$fileName";
 					file_put_contents(storage_path($filePath), $data);
 
