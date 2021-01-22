@@ -168,10 +168,6 @@
 			reader.readAsDataURL(input.files[0]); // convert to base64 string
 		}
 	}
-
-	$("#ttdInp").change(function() {
-		readURL(this);
-	});
 	</script>
 @endpush
 
@@ -187,7 +183,7 @@
 				<a class="btn btn-primary text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
 				<a class="btn btn-primary text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
 				<div id="b">
-					<input id="ttdInp" style="display: none;" type="file" accept="image/*">
+					<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
 				</div>
 				<div id="v">
 
