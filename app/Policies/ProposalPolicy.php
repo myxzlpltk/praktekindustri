@@ -59,7 +59,7 @@ class ProposalPolicy
      * @return mixed
      */
     public function update(User $user, Proposal $proposal){
-		return $user->isAdmin || $user->isCoordinator;
+		return ($user->isAdmin && $proposal->status_code == 2) || ($user->isCoordinator && $proposal->status_code == 1);
     }
 
     /**
