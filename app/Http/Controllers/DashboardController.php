@@ -12,6 +12,7 @@ class DashboardController extends Controller{
 	public function index(Request $request){
 		//ignore this spaghetti pls
 		$proposal = (Auth::user()->role == "student") ? Proposal::latest()->firstWhere('student_id', Auth::user()->student->id) : null;
+		
 		$statistik = (object) array(
 			'total_mhs' => Student::all()->count(),
 			'total_proposal' => Proposal::all()->count(),

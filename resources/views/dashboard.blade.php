@@ -57,7 +57,7 @@
 	@else
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Data SIOTANG</h6>
+			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Data Pengajuan Proposal</h6>
 		</div>
 		<div class="card-body">
 
@@ -96,7 +96,7 @@
 				<div class="progress-bar bg-success" role="progressbar" style="width: {{($statistik->pr_acc / $statistik->total_proposal) * 100}}%" aria-valuenow="{{$statistik->pr_acc}}" aria-valuemin="0" aria-valuemax="{{$statistik->total_proposal}}"></div>
 			</div>
 
-			<a>Note: Jumlah proposal tidak sama dengan jumlah mahasiswa karena proposal yang ditolak juga diikutsertakan dalam data</a>
+			<p class="text-danger">Note: Jumlah proposal tidak sama dengan jumlah mahasiswa karena proposal yang ditolak juga diikutsertakan dalam data</p>
 		</div>
 	</div>
 	@endif

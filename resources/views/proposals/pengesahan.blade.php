@@ -3,7 +3,7 @@
 @section('title', "Pengesahan Proposal")
 
 @push('stylesheets')
-@if(in_array($proposal->status_code, [1, 2]))
+@can('update', $proposal)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js" integrity="sha512-Pdu3zoEng2TLwwjnDne3O7zaeWZfEJHU5B63T+zLtME/wg1zfeSH/1wrtOzOC37u2Y1Ki8pTCdKsnbueOlFlMg==" crossorigin="anonymous"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -202,7 +202,7 @@
 	}
 
 	</script>
-@endif
+@endcan
 @endpush
 
 @section('content')
@@ -274,7 +274,7 @@
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
 			</div>
 
-			@if(in_array($proposal->status_code, [1,2]))
+			@can('update', $proposal)
 			<a class="btn btn-success text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
 			<a class="btn btn-danger text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
 
@@ -294,7 +294,7 @@
 			<div id="v" class="mt-3">
 
 			</div>
-			@endif
+			@endcan
 		</div>
 	</div>
 @endsection
