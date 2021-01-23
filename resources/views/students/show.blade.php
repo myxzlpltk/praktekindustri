@@ -10,11 +10,13 @@
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Informasi Mahasiswa</h6>
+			@can('delete', $student)
 			<form action="{{ route('students.destroy', $student) }}" method="POST">
 				@csrf
 				@method('DELETE')
 				<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash fa-fw"></i> Hapus</button>
 			</form>
+			@endcan
 		</div>
 		<div class="card-body">
 			<div class="row">
@@ -66,6 +68,7 @@
 				</div>
 			</div>
 		</div>
+		@can('reset-password', $student)
 		<div class="card-footer">
 			<form action="{{ route('students.reset-password', $student) }}" method="POST">
 				@csrf
@@ -73,6 +76,7 @@
 				<button type="submit" class="btn btn-warning btn-sm"><i class="fa fa-key fa-fw"></i> Reset Kata Sandi</button>
 			</form>
 		</div>
+		@endcan
 	</div>
 
 	<div class="card shadow mb-4">

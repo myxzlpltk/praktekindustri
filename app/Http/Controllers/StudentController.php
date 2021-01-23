@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\StudentDataTable;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -16,6 +17,8 @@ class StudentController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index(StudentDataTable $dataTable){
+		Gate::authorize('view-any', Student::class);
+
 		return $dataTable->render('students.index');
 	}
 
@@ -47,6 +50,8 @@ class StudentController extends Controller{
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Student $student){
+		Gate::authorize('view', $student);
+
         return view('students.show', [
         	'student' => $student
 		]);
@@ -82,6 +87,8 @@ class StudentController extends Controller{
      * @return \Illuminate\Http\RedirectResponse
 	 */
     public function destroy(Student $student){
+		Gate::authorize('delete', $student);
+
 		$student->delete();
 
 		return redirect()->route('students.index')->with([
@@ -96,6 +103,8 @@ class StudentController extends Controller{
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
     public function resetPassword(Student $student){
+    	Gate::authorize('reset-password', $student);
+
     	$newPassword = Str::random(16);
     	$student->user->password = Hash::make($newPassword);
     	$student->user->save();
