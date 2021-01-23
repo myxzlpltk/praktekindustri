@@ -3,7 +3,7 @@
 @section('title', "Pengesahan Proposal")
 
 @push('stylesheets')
-@if(in_array($proposal->status_code, [3,4,5], true ))
+@if(in_array($proposal->status_code, [1, 2]))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js" integrity="sha512-Pdu3zoEng2TLwwjnDne3O7zaeWZfEJHU5B63T+zLtME/wg1zfeSH/1wrtOzOC37u2Y1Ki8pTCdKsnbueOlFlMg==" crossorigin="anonymous"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -240,22 +240,18 @@
 				<tr>
 					<th>File Proposal PI</th>
 					<td>:</td>
-					<td><a href="{{Illuminate\Support\Facades\Storage::disk('local')->url('proposal/'.$proposal->file_proposal)}}">{{$proposal->file_proposal}}</a></td>
+					<td><a href="{{Illuminate\Support\Facades\Storage::disk('local')->url('proposal/'.$proposal->file_proposal)}}">
+						<i class="fas fa-file-alt mr-2"></i>
+						{{$proposal->file_proposal}}
+					</a></td>
 				</tr>
 				<tr>
 					<th>Status</th>
 					<td>:</td>
-					@if ($proposal->status_code == 1))
-					<td><a class="badge badge-warning">Menunggu TTD Koordinator</a></td>
-					@elseif ($proposal->status_code == 2)
-					<td><a class="badge badge-warning">Menunggu TTD Ketua Jurusan</a></td>
-					@elseif ($proposal->status_code == 3)
-					<td><a class="badge badge-danger">Ditolak Oleh Koordinator</a></td>
-					@elseif ($proposal->status_code == 4)
-					<td><a class="badge badge-danger">Ditolak Oleh Ketua Jurusan</a></td>
-					@elseif ($proposal->status_code == 5)
-					<td><a class="badge badge-success">Telah Disahkan</a></td>
-					@endif
+					<td><a class="badge {{ProposalHelp::proposalGetStatusClass($proposal->status_code)}}">
+						{{$proposal->status}}
+					<a/></td>
+
 
 				</tr>
 				@if(in_array($proposal->status_code, [3,4], true ))
@@ -272,7 +268,7 @@
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
 			</div>
 
-			@if(in_array($proposal->status_code, [3,4,5], true ))
+			@if(in_array($proposal->status_code, [1,2]))
 			<a class="btn btn-success text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
 			<a class="btn btn-danger text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
 
