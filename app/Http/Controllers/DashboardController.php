@@ -11,9 +11,10 @@ class DashboardController extends Controller{
 
 	public function index(Request $request){
 		//ignore this spaghetti pls
-		$proposal = (Auth::user()->role == "student") ? Proposal::latest()->firstWhere('student_id', Auth::user()->student->id) : null;
-		
-		$statistik = (object) array(
+		$user = $request->user();
+		$proposal = ($user->isStudent) ? Proposal::latest()->firstWhere('student_id', $user->student->id) : null;
+
+		$statistik = (!$user->isStudent) ? (object) array(
 			'total_mhs' => Student::all()->count(),
 			'total_proposal' => Proposal::all()->count(),
 			'pr_acc' => Proposal::where('status_code', 5)->count(),
@@ -21,7 +22,7 @@ class DashboardController extends Controller{
 			'pr_tolak_koor' => Proposal::where('status_code', 3)->count(),
 			'pr_wait_kajur' => Proposal::where('status_code', 2)->count(),
 			'pr_wait_koor' => Proposal::where('status_code', 1)->count()
-		);
+		) : null;
 
 		return view('dashboard', compact('proposal', 'statistik'));
 	}
