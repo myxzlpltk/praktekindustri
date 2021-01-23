@@ -30,7 +30,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('welcome') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-building"></i>
                 </div>
@@ -42,7 +42,7 @@
 
             <!-- Nav Item - Dashboard -->
 			<li class="nav-item active">
-				<a class="nav-link" href="">
+				<a class="nav-link" href="{{ route('dashboard') }}">
 					<i class="fas fa-fw fa-tachometer-alt"></i>
 					<span>Dasbor</span>
 				</a>

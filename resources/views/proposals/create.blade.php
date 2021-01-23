@@ -151,7 +151,7 @@
 				_token: '{{ csrf_token() }}',
 				lokasi_value: lokasi,
 				tgl_sah_value: tgl_sah,
-				prodi: "" //WIP
+				prodi: {{Auth::user()->student->prodi_id}}
 			},
 			success:function(data) {
 				preview(data.preview)

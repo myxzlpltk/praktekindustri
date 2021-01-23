@@ -18,9 +18,9 @@ class Proposal extends Model{
 
 	public const status = [
 		self::STATUS_Tunggu_TTDKoor => 'Tunggu TTD koordinator praktek industri.',
-		self::STATUS_Tunggu_TTDKajur => 'Tunggu TTD kepala jurusan.',
+		self::STATUS_Tunggu_TTDKajur => 'Tunggu TTD ketua jurusan.',
 		self::STATUS_Ditolak_Koor => 'Ditolak koordinator praktek industri.',
-		self::STATUS_Ditolak_Kajur => 'Ditolak kepala jurusan.',
+		self::STATUS_Ditolak_Kajur => 'Ditolak ketua jurusan.',
 		self::STATUS_Disahkan => 'Disahkan.',
 	];
 

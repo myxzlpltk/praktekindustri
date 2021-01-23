@@ -3,7 +3,7 @@
 @section('title', "Pengesahan Proposal")
 
 @push('stylesheets')
-@if(!in_array($proposal->status, array('Disahkan','Ditolak_Koor', 'Ditolak_Kajur'), true ))
+@if(in_array($proposal->status_code, [3,4,5], true ))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js" integrity="sha512-Pdu3zoEng2TLwwjnDne3O7zaeWZfEJHU5B63T+zLtME/wg1zfeSH/1wrtOzOC37u2Y1Ki8pTCdKsnbueOlFlMg==" crossorigin="anonymous"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -115,7 +115,7 @@
 				const lokasi = "{{$proposal->lokasi_prakerin}}";
 				const tgl_sah = '{{$proposal->tgl_sah}}';
 
-				@if($proposal->status == "Tunggu_TTDKoor")
+				@if($proposal->status_code == 1)
 				$.ajax({
 						type:'POST',
 						url:'/berkas',
@@ -123,13 +123,13 @@
 									lokasi_value: lokasi,
 									tgl_sah_value: tgl_sah,
 									ttd: "koor",
-									prodi: "" //WIP
+									prodi: {{$proposal->student->prodi_id}}
 								},
 						success:function(data) {
 							preview(data.preview)
 						}
 				});
-				@elseif($proposal->status == "Tunggu_TTDKajur")
+				@elseif($proposal->status_code == 2)
 				$.ajax({
 						type:'POST',
 						url:'/berkas',
@@ -138,7 +138,7 @@
 									tgl_sah_value: tgl_sah,
 									ttd: "kajur",
 									fileName: "{{$proposal->lembar_sah}}",
-									prodi: "" //WIP
+									prodi: {{$proposal->student->prodi_id}}
 								},
 						success:function(data) {
 							preview(data.preview)
@@ -215,17 +215,17 @@
 				<tr>
 					<th>Nama</th>
 					<td>:</td>
-					<td>{{$proposal->user->name}}</td>
+					<td>{{$proposal->student->user->name}}</td>
 				</tr>
 				<tr>
 					<th>NIM</th>
 					<td>:</td>
-					<td>190535646020</td>
+					<td>{{$proposal->student->nim}}</td>
 				</tr>
 				<tr>
 					<th>Prodi</th>
 					<td>:</td>
-					<td>S1 Teknik Informatika</td>
+					<td>{{$proposal->student->prodi->name}}</td>
 				</tr>
 				<tr>
 					<th>Nama Industri/Instansi</th>
@@ -245,24 +245,25 @@
 				<tr>
 					<th>Status</th>
 					<td>:</td>
-					@if ($proposal->status == "Tunggu_TTDKoor")
+					@if ($proposal->status_code == 1))
 					<td><a class="badge badge-warning">Menunggu TTD Koordinator</a></td>
-					@elseif ($proposal->status == "Tunggu_TTDKajur")
+					@elseif ($proposal->status_code == 2)
 					<td><a class="badge badge-warning">Menunggu TTD Ketua Jurusan</a></td>
-					@elseif ($proposal->status == "Ditolak_Koor")
+					@elseif ($proposal->status_code == 3)
 					<td><a class="badge badge-danger">Ditolak Oleh Koordinator</a></td>
-					@elseif ($proposal->status == "Ditolak_Kajur")
+					@elseif ($proposal->status_code == 4)
 					<td><a class="badge badge-danger">Ditolak Oleh Ketua Jurusan</a></td>
-					@elseif ($proposal->status == "Disahkan")
+					@elseif ($proposal->status_code == 5)
 					<td><a class="badge badge-success">Telah Disahkan</a></td>
 					@endif
+
 				</tr>
-				@if(in_array($proposal->status, array('Ditolak_Koor', 'Ditolak_Kajur'), true ))
+				@if(in_array($proposal->status_code, [3,4], true ))
 					<th>Alasan Penolakan</th>
 					<td>:</td>
-					@if($proposal->status == "Ditolak_Koor")
+					@if($proposal->status_code == 3)
 						<td class="text-danger">{{$proposal->alasanKoor}}</td>
-					@elseif($proposal->status == "Ditolak_Kajur")
+					@elseif($proposal->status_code == 4)
 						<td class="text-danger">{{$proposal->alasanKajur}}</td>
 					@endif
 				@endif
@@ -271,7 +272,7 @@
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
 			</div>
 
-			@if(!in_array($proposal->status, array('Disahkan','Ditolak_Koor', 'Ditolak_Kajur'), true ))
+			@if(in_array($proposal->status_code, [3,4,5], true ))
 			<a class="btn btn-success text-white" id="valid_btn" onClick="getPreview()">Validasi</a>
 			<a class="btn btn-danger text-white" id="tolak_btn" onClick="getTolak()">Tolak</a>
 
