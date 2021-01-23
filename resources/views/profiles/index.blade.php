@@ -15,6 +15,44 @@
 			<span class="alert-text">Status pendaftaran akun kamu masih diperiksa untuk diverifikasi. Sehingga saat ini kamu hanya bisa mengakses halaman ini. Silahkan cek lagi nanti.</span>
 		</div>
 	@endif
+
+	@if($user->isStudent)
+		<div class="card mb-4">
+			<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+				<h6 class="m-0 font-weight-bold text-primary">Informasi Mahasiswa</h6>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="thumbnail rounded-circle mx-auto shadow mb-4">
+							<img src="https://api.um.ac.id/akademik/operasional/GetFoto.ptikUM?nim={{ $user->student->nim }}&angkatan={{ $user->student->angkatan }}" alt="Photo">
+						</div>
+					</div>
+					<div class="col-md-9">
+						<table class="table table-sm">
+							<tr>
+								<th>Nomor Induk Mahasiswa</th>
+								<td>{{ $user->student->nim }}</td>
+							</tr>
+							<tr>
+								<th>Nama Lengkap</th>
+								<td>{{ $user->student->name }}</td>
+							</tr>
+							<tr>
+								<th>Program Studi</th>
+								<td>{{ optional($user->student->prodi)->name }}</td>
+							</tr>
+							<tr>
+								<th>Tahun Angkatan</th>
+								<td>{{ $user->student->angkatan }}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	@endif
+
     <div class="card mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Informasi Pengguna</h6>
@@ -61,7 +99,7 @@
 
 	<div class="card mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-			<h6 class="m-0 font-weight-bold text-primary">Informasi Pengguna</h6>
+			<h6 class="m-0 font-weight-bold text-primary">Ganti Kata Sandi</h6>
 		</div>
 		<div class="card-body">
 			<form action="{{ route('user-password.update') }}" method="post">
