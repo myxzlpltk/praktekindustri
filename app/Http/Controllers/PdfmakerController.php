@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Storage;
 
 class PdfmakerController extends Controller{
 
-	public function index($lokasi, $tgl_sah){
-		$today = Carbon::parse($tgl_sah)->isoFormat('D MMMM Y');
+	public function index(Request $request){
+		$today = Carbon::parse($request->tgl_sah_value)->isoFormat('D MMMM Y');
 
 		$fpdf = new Fpdf('P', 'mm', 'A4');
 		$fpdf->AddPage();
@@ -25,7 +25,7 @@ class PdfmakerController extends Controller{
 		$fpdf->Cell(210, 50, 'LEMBAR PENGESAHAN', 0, 1.15, 'C');
 		$fpdf->SetFont('Times', '', 12);
 		$fpdf->Cell(40, 30, '', 0);
-		$fpdf->MultiCell(130, 6, 'Proposal Praktik Industri ini telah diperiksa dan disetujui oleh Koordinator Praktik Industri Jurusan Teknik Elektro - Fakultas Teknik - Universitas Negeri Malang, sebagai kelengkapan berkas permohonan ijin melaksanakan Praktik Industri ke '.$lokasi);
+		$fpdf->MultiCell(130, 6, 'Proposal Praktik Industri ini telah diperiksa dan disetujui oleh Koordinator Praktik Industri Jurusan Teknik Elektro - Fakultas Teknik - Universitas Negeri Malang, sebagai kelengkapan berkas permohonan ijin melaksanakan Praktik Industri ke '.$request->lokasi_value);
 		$fpdf->Cell(170, 30, 'Malang, '.$today, 0, 1.15, 'R');
 		$fpdf->SetFont('Times', 'B', 12);
 		$fpdf->Cell(210, 20, 'Menyetujui,', 0, 1.15, 'C');
@@ -66,7 +66,7 @@ class PdfmakerController extends Controller{
 			$request->session()->forget('preview_pathfile');
 		}
 
-		$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->index($request->lokasi_value, $request->tgl_sah_value);
+		$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->index($request);
 		return response()->json(array('preview'=> $pdfData), 200);
 	}
 
