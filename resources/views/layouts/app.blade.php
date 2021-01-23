@@ -162,7 +162,11 @@
                 <div class="modal-body">Klik "Keluar" dibawah ini jika kamu siap untuk mengakhiri sesi.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batalkan</button>
-                    <a class="btn btn-primary" href="#">Keluar</a>
+                    <form action="{{ route('logout') }}" method="POST">
+						@csrf
+
+						<button type="submit" class="btn btn-primary">Keluar</button>
+					</form>
                 </div>
             </div>
         </div>
