@@ -26,7 +26,6 @@ class StudentFactory extends Factory
             'prodi_id' => Prodi::inRandomOrder()->first()->id,
 			'angkatan' => 2017,
 			'ktm' => $this->faker->file('storage/faker/ktm', 'storage/app/public/ktm', false),
-			'valid' => true
         ];
     }
 }

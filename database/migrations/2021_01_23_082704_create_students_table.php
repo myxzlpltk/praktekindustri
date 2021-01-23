@@ -21,7 +21,6 @@ class CreateStudentsTable extends Migration
 			$table->string('nim');
 			$table->year('angkatan');
 			$table->string('ktm');
-			$table->boolean('valid')->default(false);
             $table->timestamps();
         });
     }
