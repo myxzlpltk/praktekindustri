@@ -16,6 +16,6 @@ class Helper {
 
 		return key_exists($code, $classes)
 			? __($classes[$code])
-			: __('');
+			: __('badge-secondary');
 	}
 }
