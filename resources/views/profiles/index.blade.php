@@ -17,7 +17,7 @@
 	@endif
 
 	@if($user->isStudent)
-		<div class="card mb-4">
+		<div class="card shadow mb-4">
 			<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 				<h6 class="m-0 font-weight-bold text-primary">Informasi Mahasiswa</h6>
 			</div>
@@ -53,7 +53,7 @@
 		</div>
 	@endif
 
-    <div class="card mb-4">
+    <div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Informasi Pengguna</h6>
 		</div>
@@ -97,7 +97,7 @@
 		</div>
 	</div>
 
-	<div class="card mb-4">
+	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Ganti Kata Sandi</h6>
 		</div>
