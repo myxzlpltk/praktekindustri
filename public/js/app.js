@@ -9,3 +9,6 @@ $('input[type="file"]').change(function(e){
 	/* Replace the "Choose a file" label */
 	$('.custom-file-label').html(fileName);
 });
+
+/* Tooltip */
+$('[data-toggle]').tooltip();
