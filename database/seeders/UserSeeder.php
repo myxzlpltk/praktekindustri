@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +16,19 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'email_verified_at' => now(),
             'username' => 'admin',
             'role' => 'admin'
         ]);
-        User::factory(10)->create();
+		User::factory()->create([
+			'username' => 'coordinator',
+			'role' => 'coordinator'
+		]);
+        User::factory(10)->create()->each(function($user){
+			$user->student()->save(
+				Student::factory()->make([
+					'nim' => $user->username
+				])
+			);
+		});
     }
 }

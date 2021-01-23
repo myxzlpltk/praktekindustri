@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Prodi;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +23,10 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'prodi_id' => Prodi::inRandomOrder()->first()->id,
+			'angkatan' => 2017,
+			'ktm' => $this->faker->file('storage/faker/ktm', 'storage/app/public/ktm', false),
+			'valid' => true
         ];
     }
 }
