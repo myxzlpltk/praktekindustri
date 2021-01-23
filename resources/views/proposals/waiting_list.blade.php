@@ -40,7 +40,7 @@
 											 <tr role="row">
 													<td>{{$p->user->name}}</td>
 													<td>{{$p->lokasi_prakerin}}</td>
-													<td>{{$p->tgl_sah_view()}}</td>
+													<td>{{$p->tgl_sah_view}}</td>
 
 														@if ($p->status == "Tunggu_TTDKoor"))
 														<td><a class="badge badge-warning">Menunggu TTD Koordinator</a></td>

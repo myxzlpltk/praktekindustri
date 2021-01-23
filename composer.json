@@ -12,6 +12,7 @@
         "codedge/laravel-fpdf": "^1.7",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "google/recaptcha": "^1.2",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel-lang/lang": "^8.0",
         "laravel/fortify": "^1.7",

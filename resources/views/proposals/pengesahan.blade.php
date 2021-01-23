@@ -235,7 +235,7 @@
 				<tr>
 					<th>Tanggal Pengesahan</th>
 					<td>:</td>
-					<td>{{$proposal->tgl_sah_view()}}</td>
+					<td>{{$proposal->tgl_sah_view}}</td>
 				</tr>
 				<tr>
 					<th>File Proposal PI</th>

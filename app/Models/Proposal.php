@@ -6,30 +6,39 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class Proposal extends Model
-{
-		use HasFactory;
+class Proposal extends Model{
 
-		/**
-     * fillable
-     *
-     * @var array
-     */
-  protected $fillable = [
-			'user_id', 'lokasi_prakerin', 'tgl_sah', 'file_proposal', 'status', 'lembar_sah'
+	use HasFactory;
+
+	public const STATUS_Tunggu_TTDKoor = 1;
+	public const STATUS_Tunggu_TTDKajur = 2;
+	public const STATUS_Ditolak_Koor = 3;
+	public const STATUS_Ditolak_Kajur = 4;
+	public const STATUS_Disahkan = 5;
+
+	public const status = [
+		self::STATUS_Tunggu_TTDKoor => 'Tunggu TTD koordinator praktek industri.',
+		self::STATUS_Tunggu_TTDKajur => 'Tunggu TTD kepala jurusan.',
+		self::STATUS_Ditolak_Koor => 'Ditolak koordinator praktek industri.',
+		self::STATUS_Ditolak_Kajur => 'Ditolak kepala jurusan.',
+		self::STATUS_Disahkan => 'Disahkan.',
 	];
 
-	/**
-	 * Many to One Proposal - User
-	 */
-	public function user(){
+	protected $fillable = [
+		'user_id', 'lokasi_prakerin', 'tgl_sah', 'file_proposal', 'status', 'lembar_sah'
+	];
+
+	public function getStatusAttribute(){
+		return key_exists($this->status_code, self::status)
+			? __(self::status[$this->status_code])
+			: __('Tidak Diketahui.');
+	}
+
+	public function student(){
 		return $this->belongsTo(User::class, 'user_id');
 	}
 
-	/**
-	 * tampilkan tanggal pengesahan
-	 */
-	public function tgl_sah_view(){
+	public function getTglSahViewAttribute(){
 		return Carbon::parse($this->tgl_sah)->isoFormat('D MMMM Y');
 	}
 }

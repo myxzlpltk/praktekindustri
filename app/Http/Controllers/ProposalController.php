@@ -56,8 +56,8 @@ class ProposalController extends Controller{
 		$proposal->file_proposal = $file_proposal->getClientOriginalName();
 		$proposal->lokasi_prakerin = $request->f_lokasi;
 		$proposal->tgl_sah = $request->f_tgl_sah;
-		$proposal->status = 'Tunggu_TTDKoor';
-		$proposal->user_id = 1; //to-be replaced later
+		$proposal->status_code = Proposal::STATUS_Tunggu_TTDKajur;
+		$proposal->student_id = 1; //to-be replaced later
 
 		if($proposal->save()){
 			return redirect()->route('proposals.index')->with(['success' => 'Data Berhasil Disimpan!']);
@@ -95,9 +95,9 @@ class ProposalController extends Controller{
 	 */
 	public function update(Request $request, Proposal $proposal){
 		$pr = Proposal::find($proposal->id);
-		$tahap = ($pr->status == "Tunggu_TTDKajur") ? 2 : 1;
+		$tahap = ($pr->status_code == Proposal::STATUS_Tunggu_TTDKajur) ? 2 : 1;
 		if($request->f_p_st == "tolak"){
-			$pr->status= ($tahap == 2) ? "Ditolak_Kajur" : "Ditolak_Koor";
+			$pr->status_code = ($tahap == 2) ? Proposal::STATUS_Ditolak_Kajur : Proposal::STATUS_Ditolak_Koor;
 
 			if($tahap == 1){
 				$pr->alasanKoor = $request->f_alasan;
@@ -112,7 +112,7 @@ class ProposalController extends Controller{
 			$filePath = ($tahap == 2) ? "app/public/lembar_sah/ttd_sah/$fileName" : "app/public/lembar_sah/ttd_koor/$fileName";
 			file_put_contents(storage_path($filePath), $data);
 
-			$pr->status = ($tahap == 2) ? "Disahkan" : "Tunggu_TTDKajur";
+			$pr->status_code = ($tahap == 2) ? Proposal::STATUS_Disahkan : Proposal::STATUS_Tunggu_TTDKajur;
 			$pr->lembar_sah = $fileName;
 		}
 

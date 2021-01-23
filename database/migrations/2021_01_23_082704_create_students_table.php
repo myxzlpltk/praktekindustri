@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Student;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnProposal extends Migration
+class CreateStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +14,13 @@ class AddColumnProposal extends Migration
      */
     public function up()
     {
-			Schema::table('proposals', function (Blueprint $table) {
-				$table->text('alasanKoor')->nullable();
-				$table->text('alasanKajur')->nullable();
-			});
+        Schema::create('students', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id');
+			$table->foreignId('prodi_id');
+			$table->string('nim');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,8 +30,6 @@ class AddColumnProposal extends Migration
      */
     public function down()
     {
-			Schema::table('proposals', function (Blueprint $table) {
-					$table->dropColumn('alasanKoor', 'alasanKajur');
-			});
+        Schema::dropIfExists('students');
     }
 }
