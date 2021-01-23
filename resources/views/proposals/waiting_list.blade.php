@@ -33,12 +33,13 @@
 													<th rowspan="1" colspan="1" style="width: 50px;">Tanggal Pengesahan</th>
 													<th rowspan="1" colspan="1" style="width: 50px;">Status</th>
 													<th rowspan="1" colspan="1" style="width: 50px;">Detail</th>
+
 											 </tr>
 										</thead>
 										<tbody>
 											@forelse ($proposals as $p)
 											 <tr role="row">
-													<td>{{$p->user->name}}</td>
+													<td>{{$p->student->user()->nama}}</td>
 													<td>{{$p->lokasi_prakerin}}</td>
 													<td>{{$p->tgl_sah_view}}</td>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proposal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,14 +51,15 @@ class ProposalController extends Controller{
 
 		/* Request file */
 		$file_proposal = $request->file('f_fileproposal');
-		$file_proposal->storeAs("proposal/", $file_proposal->getClientOriginalName());
+		$fileName = "Proposal_".Auth::user()->name."_".Auth::user()->username;
+		$file_proposal->storeAs("proposal/", $fileName);
 
 		$proposal = new Proposal;
-		$proposal->file_proposal = $file_proposal->getClientOriginalName();
+		$proposal->file_proposal = $fileName;
 		$proposal->lokasi_prakerin = $request->f_lokasi;
 		$proposal->tgl_sah = $request->f_tgl_sah;
 		$proposal->status_code = Proposal::STATUS_Tunggu_TTDKajur;
-		$proposal->student_id = 1; //to-be replaced later
+		$proposal->student_id = Auth::user()->id;
 
 		if($proposal->save()){
 			return redirect()->route('proposals.index')->with(['success' => 'Data Berhasil Disimpan!']);

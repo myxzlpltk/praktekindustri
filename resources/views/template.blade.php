@@ -6,7 +6,8 @@
 @endpush
 
 @section('content')
-    <p>Hello World</p>
+	<p>Hello World</p>
+	<p>{{Auth::user()->student->prodi_id}}</p>
 @endsection
 
 @push('scripts')

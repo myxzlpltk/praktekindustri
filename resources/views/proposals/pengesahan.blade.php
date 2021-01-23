@@ -123,7 +123,7 @@
 									lokasi_value: lokasi,
 									tgl_sah_value: tgl_sah,
 									ttd: "koor",
-									prodi: "" //WIP
+									prodi: {{$proposal->student->student->prodi_id}}
 								},
 						success:function(data) {
 							preview(data.preview)
@@ -138,7 +138,7 @@
 									tgl_sah_value: tgl_sah,
 									ttd: "kajur",
 									fileName: "{{$proposal->lembar_sah}}",
-									prodi: "" //WIP
+									prodi: {{$proposal->student->student->prodi_id}}
 								},
 						success:function(data) {
 							preview(data.preview)
