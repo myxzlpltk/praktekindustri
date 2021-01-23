@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Proposal;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,6 +30,13 @@ class UserSeeder extends Seeder
 					'nim' => $user->username
 				])
 			);
+
+			/* Probability <= 30% */
+			if(rand(1, 100) <= 30){
+				$user->student->proposals()->save(
+					Proposal::factory()->make()
+				);
+			}
 		});
     }
 }

@@ -6,6 +6,15 @@
 @endpush
 
 @section('content')
+	@if($user->isStudent && !$user->student->valid)
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<p class="mb-0">
+				<span class="alert-icon"><i class="fa fa-bullhorn fa-fw"></i></span>
+				<strong>Informasi Singkat....</strong>
+			</p>
+			<span class="alert-text">Status pendaftaran akun kamu masih diperiksa untuk diverifikasi. Sehingga saat ini kamu hanya bisa mengakses halaman ini. Silahkan cek lagi nanti.</span>
+		</div>
+	@endif
     <div class="card mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Informasi Pengguna</h6>

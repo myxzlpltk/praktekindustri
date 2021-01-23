@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProposalController extends Controller{
@@ -15,6 +16,8 @@ class ProposalController extends Controller{
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function index(){
+		Gate::authorize('view-any', Proposal::class);
+
 		return view('proposals.waiting_list', [
 			'proposals' => Proposal::latest()->paginate(10)
 		]);
@@ -25,7 +28,9 @@ class ProposalController extends Controller{
 	 *
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
-	public function create(){
+	public function create(Request $request){
+		Gate::authorize('create', Proposal::class);
+
 		return view('proposals.create');
 	}
 
@@ -36,6 +41,8 @@ class ProposalController extends Controller{
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(Request $request){
+		Gate::authorize('create', Proposal::class);
+
 		/* Unset session preview pathfile */
 		if($request->session()->has('preview_pathfile')){
 			Storage::disk('local')->delete(session('preview_pathfile'));
@@ -75,6 +82,8 @@ class ProposalController extends Controller{
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function show(Proposal $proposal){
+		Gate::authorize('show', $proposal);
+
 		return view('proposals.pengesahan', compact('proposal'));
 	}
 
@@ -85,7 +94,7 @@ class ProposalController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Proposal $proposal){
-
+		Gate::authorize('update', $proposal);
 	}
 
 	/**
@@ -96,31 +105,32 @@ class ProposalController extends Controller{
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update(Request $request, Proposal $proposal){
-		$pr = Proposal::find($proposal->id);
-		$tahap = ($pr->status_code == Proposal::STATUS_Tunggu_TTDKajur) ? 2 : 1;
+		Gate::authorize('update', $proposal);
+
+		$tahap = ($proposal->status_code == Proposal::STATUS_Tunggu_TTDKajur) ? 2 : 1;
 		if($request->f_p_st == "tolak"){
-			$pr->status_code = ($tahap == 2) ? Proposal::STATUS_Ditolak_Kajur : Proposal::STATUS_Ditolak_Koor;
+			$proposal->status_code = ($tahap == 2) ? Proposal::STATUS_Ditolak_Kajur : Proposal::STATUS_Ditolak_Koor;
 
 			if($tahap == 1){
-				$pr->alasanKoor = $request->f_alasan;
-			} else{$pr->alasanKajur = $request->f_alasan;}
+				$proposal->alasanKoor = $request->f_alasan;
+			} else{$proposal->alasanKajur = $request->f_alasan;}
 
 		} else if($request->f_p_st == "valid"){
 			list($ext, $data)   = explode(';', $request->f_d);
 			list(, $data)       = explode(',', $data);
 			$data = base64_decode($data);
 
-			$fileName = "Pengesahan_".$pr->student->user->name."_".$pr->student->nim.'.pdf';
+			$fileName = "Pengesahan_".$proposal->student->user->name."_".$proposal->student->nim.'.pdf';
 			$filePath = ($tahap == 2) ? "app/public/lembar_sah/ttd_sah/$fileName" : "app/public/lembar_sah/ttd_koor/$fileName";
 			file_put_contents(storage_path($filePath), $data);
 
-			$pr->status_code = ($tahap == 2) ? Proposal::STATUS_Disahkan : Proposal::STATUS_Tunggu_TTDKajur;
-			$pr->lembar_sah = $fileName;
+			$proposal->status_code = ($tahap == 2) ? Proposal::STATUS_Disahkan : Proposal::STATUS_Tunggu_TTDKajur;
+			$proposal->lembar_sah = $fileName;
 		}
 
-		if($pr->save()){
+		if($proposal->save()){
 			if($tahap == 2){
-				Storage::disk('public')->delete("lembar_sah/ttd_koor/{$pr->lembar_sah}");
+				Storage::disk('public')->delete("lembar_sah/ttd_koor/{$proposal->lembar_sah}");
 			}
 
 			return redirect()
