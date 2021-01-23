@@ -39,19 +39,19 @@
 										<tbody>
 											@forelse ($proposals as $p)
 											 <tr role="row">
-													<td>{{$p->student->user()->nama}}</td>
+													<td>{{$p->student->user->name}}</td>
 													<td>{{$p->lokasi_prakerin}}</td>
 													<td>{{$p->tgl_sah_view}}</td>
 
-														@if ($p->status == "Tunggu_TTDKoor"))
+														@if ($p->status_code == 1))
 														<td><a class="badge badge-warning">Menunggu TTD Koordinator</a></td>
-														@elseif ($p->status == "Tunggu_TTDKajur")
+														@elseif ($p->status_code == 2)
 														<td><a class="badge badge-warning">Menunggu TTD Ketua Jurusan</a></td>
-														@elseif ($p->status == "Ditolak_Koor")
+														@elseif ($p->status_code == 3)
 														<td><a class="badge badge-danger">Ditolak Oleh Koordinator</a></td>
-														@elseif ($p->status == "Ditolak_Kajur")
+														@elseif ($p->status_code == 4)
 														<td><a class="badge badge-danger">Ditolak Oleh Ketua Jurusan</a></td>
-														@elseif ($p->status == "Disahkan")
+														@elseif ($p->status_code == 5)
 														<td><a class="badge badge-success">Telah Disahkan</a></td>
 														@endif
 
