@@ -240,7 +240,7 @@
 				<tr>
 					<th>File Proposal PI</th>
 					<td>:</td>
-					<td><a href="{{Illuminate\Support\Facades\Storage::disk('local')->url('proposal/'.$proposal->file_proposal)}}">
+					<td><a href="{{ asset('storage/proposal/'.$proposal->file_proposal) }}">
 						<i class="fas fa-file-alt mr-2"></i>
 						{{$proposal->file_proposal}}
 					</a></td>
@@ -248,12 +248,18 @@
 				<tr>
 					<th>Status</th>
 					<td>:</td>
-					<td><a class="badge {{ProposalHelp::proposalGetStatusClass($proposal->status_code)}}">
-						{{$proposal->status}}
-					<a/></td>
-
-
+					<td><a class="badge {{ Helper::proposalStatusClass($proposal->status_code) }}">{{ $proposal->status }}</a></td>
 				</tr>
+				@if($proposal->status_code == 5)
+					<tr>
+						<th>Lembar Pengesahan</th>
+						<td>:</td>
+						<td><a href="{{ asset('storage/lembar_sah/ttd_sah/'.$proposal->lembar_sah) }}">
+							<i class="fas fa-file-alt mr-2"></i>
+							{{$proposal->lembar_sah}}
+						</a></td>
+					</tr>
+				@endif
 				@if(in_array($proposal->status_code, [3,4], true ))
 					<th>Alasan Penolakan</th>
 					<td>:</td>

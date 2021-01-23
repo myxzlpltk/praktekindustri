@@ -31,7 +31,7 @@ class Proposal extends Model{
 	public function getStatusAttribute(){
 		return key_exists($this->status_code, self::status)
 			? __(self::status[$this->status_code])
-			: __('Tidak Diketahui.');
+			: __('Belum Mengajukan');
 	}
 
 	public function student(){

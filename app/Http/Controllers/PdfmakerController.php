@@ -44,8 +44,6 @@ class PdfmakerController extends Controller{
 
 		$fpdf->SetXY($x+120, $y);
 
-		//WIP PRODI
-		//Bu kartika: PTI, TI, D3 ELKA
 		if(in_array($request->prodi, [1, 3, 6])){
 			$fpdf->MultiCell(70, 6, 'Kartika Candra Kirana, S.Pd., M. Kom NIP 199105012019032030', 0, 'L');
 		} else if(in_array($request->prodi, [2, 4, 5])){

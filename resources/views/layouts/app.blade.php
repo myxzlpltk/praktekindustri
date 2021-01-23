@@ -46,14 +46,18 @@
 					<i class="fas fa-fw fa-tachometer-alt"></i>
 					<span>Dasbor</span>
 				</a>
+				@can('create', Auth::user())
 				<a class="nav-link" href="{{ route('proposals.create') }}">
 					<i class="fas fa-fw fa-book-reader"></i>
 					<span>Pengajuan Proposal</span>
 				</a>
+				@endcan
+				@can('view', Auth::user())
 				<a class="nav-link" href="{{ route('proposals.index') }}">
 					<i class="fas fa-fw fa-stamp"></i>
 					<span>Pengesahan Proposal</span>
 				</a>
+				@endcan
 			</li>
 
             <!-- Divider -->
