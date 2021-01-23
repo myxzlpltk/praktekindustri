@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Proposal;
+use App\Models\Student;
 use App\Models\User;
 use App\Policies\ProposalPolicy;
+use App\Policies\StudentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-         Proposal::class => ProposalPolicy::class,
+		Proposal::class => ProposalPolicy::class,
+		Student::class => StudentPolicy::class,
     ];
 
     /**

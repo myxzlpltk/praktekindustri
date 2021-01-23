@@ -25,6 +25,7 @@
 
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-5">Konfirmasi Kata Sandi</h1>
+										<p class="mb-4">Ini adalah area aman aplikasi. Silahkan konfirmasi kata sandi sebelum melanjutkan.</p>
 									</div>
 									<form action="{{ route('password.confirm') }}" method="POST" role="form" class="user">
 										@csrf
