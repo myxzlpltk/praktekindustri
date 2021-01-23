@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('welcome');
 
-Route::middleware('auth')->group(function (){
+Route::middleware(['auth', 'verified'])->group(function (){
+	Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
 	Route::resource('proposals', ProposalController::class);
 
 	Route::resource('/berkas', PdfmakerController::class);
