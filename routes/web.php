@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function (){
+	Route::get('profile', 'ProfileController@index')->name('profile');
+
 	Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
 	Route::resource('proposals', ProposalController::class);

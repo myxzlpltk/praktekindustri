@@ -2,7 +2,7 @@
 
 @section('bodyClass', 'bg-gradient-primary')
 
-@section('title', "Simple Page")
+@section('title', "Konfirmasi kata sandi")
 
 @push('stylesheets')
 @endpush
