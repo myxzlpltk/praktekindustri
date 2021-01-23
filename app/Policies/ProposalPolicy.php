@@ -40,7 +40,15 @@ class ProposalPolicy
      * @return mixed
      */
     public function create(User $user){
-		return $user->isStudent && $user->student->proposals()->count() == 0;
+		return $user->isStudent
+			&& (
+				$user->student->proposals()->count() == 0
+				|| $user->student->proposals()->whereIn('status_code', [
+					Proposal::STATUS_Tunggu_TTDKoor,
+					Proposal::STATUS_Tunggu_TTDKajur,
+					Proposal::STATUS_Disahkan,
+				])->count() == 0
+			);
     }
 
     /**

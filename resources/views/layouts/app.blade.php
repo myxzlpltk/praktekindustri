@@ -40,21 +40,28 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-			<li class="nav-item active">
+			<li class="nav-item @if(Route::currentRouteNamed('dashboard')) active @endif">
 				<a class="nav-link" href="{{ route('dashboard') }}">
 					<i class="fas fa-fw fa-tachometer-alt"></i>
 					<span>Dasbor</span>
 				</a>
+			</li>
+			@can('create', \App\Models\Proposal::class)
+			<li class="nav-item @if(Route::currentRouteNamed('proposals.create')) active @endif">
 				<a class="nav-link" href="{{ route('proposals.create') }}">
 					<i class="fas fa-fw fa-book-reader"></i>
 					<span>Pengajuan Proposal</span>
 				</a>
-				<a class="nav-link" href="{{ route('proposals.index') }}">
+			</li>
+			@endcan
+			@can('view-any', \App\Models\Proposal::class)
+			<li class="nav-item">
+				<a class="nav-link @if(Request::segment(1) == 'proposals' && !Route::currentRouteNamed('proposals.create')) active @endif" href="{{ route('proposals.index') }}">
 					<i class="fas fa-fw fa-stamp"></i>
 					<span>Pengesahan Proposal</span>
 				</a>
 			</li>
+			@endcan
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
