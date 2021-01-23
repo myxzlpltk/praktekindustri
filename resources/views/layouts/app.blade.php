@@ -56,8 +56,8 @@
 			</li>
 			@endcan
 			@can('view-any', \App\Models\Proposal::class)
-			<li class="nav-item">
-				<a class="nav-link @if(Request::segment(1) == 'proposals' && !Route::currentRouteNamed('proposals.create')) active @endif" href="{{ route('proposals.index') }}">
+			<li class="nav-item @if(Request::segment(1) == 'proposals' && !Route::currentRouteNamed('proposals.create')) active @endif">
+				<a class="nav-link" href="{{ route('proposals.index') }}">
 					<i class="fas fa-fw fa-stamp"></i>
 					<span>Pengesahan Proposal</span>
 				</a>
