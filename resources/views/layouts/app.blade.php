@@ -64,6 +64,19 @@
 			</li>
 			@endcan
 
+			<hr class="sidebar-divider">
+
+			<div class="sidebar-heading">Data Primer</div>
+
+			@cannot('isStudent')
+			<li class="nav-item @if(Request::segment(1) == 'students') active @endif">
+				<a class="nav-link" href="{{ route('students.index') }}">
+					<i class="fas fa-fw fa-users"></i>
+					<span>Data Mahasiswa</span>
+				</a>
+			</li>
+			@endcannot
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

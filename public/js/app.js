@@ -12,3 +12,14 @@ $('input[type="file"]').change(function(e){
 
 /* Tooltip */
 $('[data-toggle]').tooltip();
+
+/* dataTable */
+$(document).ready(function() {
+	$('.dataTable, #dataTable').each(function (){
+		$(this).DataTable({
+			'language': {
+				'url': "/vendor/datatables/id.json"
+			}
+		})
+	});
+});
