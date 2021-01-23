@@ -30,7 +30,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('welcome') }}">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-building"></i>
                 </div>
@@ -41,20 +41,20 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-										<span>Dasbor</span>
-								</a>
-								<a class="nav-link" href="{{ route('proposals.create') }}">
-									<i class="fas fa-fw fa-book-reader"></i>
-									<span>Pengajuan Proposal</span>
-								</a>
-								<a class="nav-link" href="{{ route('proposals.index') }}">
-									<i class="fas fa-fw fa-stamp"></i>
-									<span>Pengesahan Proposal</span>
-								</a>
-            </li>
+			<li class="nav-item active">
+				<a class="nav-link" href="">
+					<i class="fas fa-fw fa-tachometer-alt"></i>
+					<span>Dasbor</span>
+				</a>
+				<a class="nav-link" href="{{ route('proposals.create') }}">
+					<i class="fas fa-fw fa-book-reader"></i>
+					<span>Pengajuan Proposal</span>
+				</a>
+				<a class="nav-link" href="{{ route('proposals.index') }}">
+					<i class="fas fa-fw fa-stamp"></i>
+					<span>Pengesahan Proposal</span>
+				</a>
+			</li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

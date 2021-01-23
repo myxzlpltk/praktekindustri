@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::view('/', 'welcome')->name('welcome');
+
+Route::middleware('auth')->group(function (){
+	Route::resource('proposals', ProposalController::class);
+
+	Route::resource('/berkas', PdfmakerController::class);
 });
-
-Route::resource('proposals', ProposalController::class);
-
-Route::resource('/berkas', PdfmakerController::class);
