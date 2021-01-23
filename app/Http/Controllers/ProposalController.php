@@ -69,7 +69,7 @@ class ProposalController extends Controller{
 		$proposal->student_id = Auth::user()->student->id;
 
 		if($proposal->save()){
-			return redirect()->route('proposals.index')->with(['success' => 'Data Berhasil Disimpan!']);
+			return redirect()->route('dashboard')->with(['success' => 'Proposal Berhasil Diajukan!']);
 		} else{
 			return redirect()->route('proposals.create')->with(['failed' => 'Terjadi Kesalahan!']);
 		}

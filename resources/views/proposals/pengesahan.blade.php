@@ -291,7 +291,7 @@
 			</form>
 
 
-			<div id="v" class="mt-3">
+			<div id="v" class="mt-3" style="overflow-x: scroll;">
 
 			</div>
 			@endcan
