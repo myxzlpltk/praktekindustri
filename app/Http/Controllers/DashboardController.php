@@ -16,7 +16,7 @@ class DashboardController extends Controller{
 
 		$statistik = (!$user->isStudent) ? (object) array(
 			'total_mhs' => Student::all()->count(),
-			'total_proposal' => Proposal::all()->count(),
+			'total_proposal' => Proposal::count(),
 			'pr_acc' => Proposal::where('status_code', 5)->count(),
 			'pr_tolak_kajur' => Proposal::where('status_code', 4)->count(),
 			'pr_tolak_koor' => Proposal::where('status_code', 3)->count(),
