@@ -35,7 +35,7 @@ class Proposal extends Model{
 	}
 
 	public function student(){
-		return $this->belongsTo(User::class, 'user_id');
+		return $this->belongsTo(Student::class);
 	}
 
 	public function getTglSahViewAttribute(){
