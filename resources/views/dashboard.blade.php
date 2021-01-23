@@ -12,7 +12,7 @@
 				<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Pengajuan Proposal</h6>
 			</div>
 			<div class="card-body">
-				<table class="table">
+				<table class="table table-responsive">
 					<tr>
 						<td>Status Pengajuan Proposal</td>
 						<td>:</td>

@@ -211,7 +211,7 @@
 			<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Detail Pengajuan</h6>
 		</div>
 		<div class="card-body">
-			<table class="table">
+			<table class="table table-responsive">
 				<tr>
 					<th>Nama</th>
 					<td>:</td>

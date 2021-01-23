@@ -12,7 +12,7 @@
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<table class="table table-bordered" width="100%" style="width: 100%;">
+				<table class="table table-bordered table-responsive" width="100%" style="width: 100%;">
 					<thead>
 						<tr role="row">
 							<th style="width: 38px;">Nama Mahasiswa</th>
