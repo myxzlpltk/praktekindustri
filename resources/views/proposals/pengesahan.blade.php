@@ -4,11 +4,56 @@
 
 @push('stylesheets')
 @can('update', $proposal)
+<style>
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+    width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js" integrity="sha512-Pdu3zoEng2TLwwjnDne3O7zaeWZfEJHU5B63T+zLtME/wg1zfeSH/1wrtOzOC37u2Y1Ki8pTCdKsnbueOlFlMg==" crossorigin="anonymous"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
+(function(){
+  var defaultOnTouchStartHandler = fabric.Canvas.prototype._onTouchStart;
+  fabric.util.object.extend(fabric.Canvas.prototype, {
+    _onTouchStart: function(e) {
+      var target = this.findTarget(e);
+      // if allowTouchScrolling is enabled, no object was at the
+      // the touch position and we're not in drawing mode, then
+      // let the event skip the fabricjs canvas and do default
+      // behavior
+      if (this.allowTouchScrolling && !target && !this.isDrawingMode) {
+        // returning here should allow the event to propagate and be handled
+        // normally by the browser
+        return;
+      }
+
+      // otherwise call the default behavior
+      defaultOnTouchStartHandler.call(this, e);
+    }
+  });
+})();
+
 	var f_canvas;
 	var ori_canvas = true;
 
@@ -103,7 +148,11 @@
 									wrapper.appendChild(canvas);
 
 									page.render({canvasContext: ctx, viewport: originalviewport});
-									f_canvas = new fabric.Canvas('page-1');
+									f_canvas = new fabric.Canvas('page-1',
+									{
+										selection: false,
+										allowTouchScrolling: true
+									});
 									document.getElementById('wait_text').remove();
 							}
 			}
@@ -191,7 +240,7 @@
 									top: 0,
 									left: 0,
 									scaleX: f_canvas.width/bg.width,
-									scaleY: f_canvas.height/bg.height
+									scaleY: f_canvas.height/bg.height,
 							});
 					});
 					f_canvas.setBackgroundImage(bg);
@@ -200,7 +249,8 @@
 				fabric.Image.fromURL(e.target.result, function(oImg) {
 							oImg.set({
 								top: 750,
-								left: 570
+								left: 570,
+								selectable: true
 							});
 							f_canvas.add(oImg);
 					});
