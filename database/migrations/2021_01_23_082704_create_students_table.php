@@ -19,6 +19,9 @@ class CreateStudentsTable extends Migration
             $table->foreignId('user_id');
 			$table->foreignId('prodi_id');
 			$table->string('nim');
+			$table->year('angkatan');
+			$table->string('ktm');
+			$table->boolean('valid')->default(false);
             $table->timestamps();
         });
     }

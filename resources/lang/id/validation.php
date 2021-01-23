@@ -147,8 +147,15 @@ return [
     */
 
     'attributes' => [
-		'f_fileproposal' => 'Berkas Proposal',
-		'f_tgl_sah' => 'Tanggal Pengesahan',
-    	'f_lokasi' => 'Nama Industri/Instansi',
+		'email' => 'Alamat email',
+		'f_fileproposal' => 'Berkas proposal',
+		'f_tgl_sah' => 'Tanggal pengesahan',
+		'ktm' => 'Kartu tanda mahasiswa',
+		'name' => 'Nama lengkap',
+		'nim' => 'Nomor induk mahasiswa',
+		'password' => 'Kata sandi',
+		'password_confirmation' => 'Ulangi kata sandi',
+		'tahun' => 'Tahun angkatan',
+    	'f_lokasi' => 'Nama industri/instansi',
     ],
 ];

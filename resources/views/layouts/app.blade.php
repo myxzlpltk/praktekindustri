@@ -119,6 +119,8 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">@yield('title', 'Halaman Kosong')</h1>
 
+					@include('layouts.flash')
+
                     @yield('content')
 
                 </div>
