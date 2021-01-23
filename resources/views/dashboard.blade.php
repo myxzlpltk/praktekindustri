@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="card shadow mb-4">
-	@if(Auth::user()->role == "student")
+	@can('isStudent')
 	<div class="card-header py-3">
 		<h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-clipboard-list fa-fw"></i>Pengajuan Proposal</h6>
 	</div>
@@ -54,7 +54,7 @@
 			@endif
 		</table>
 	</div>
-	@else
+	@elsecan
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-primary">Data SIOTANG</h6>
@@ -99,7 +99,7 @@
 			<a>Note: Jumlah proposal tidak sama dengan jumlah mahasiswa karena proposal yang ditolak juga diikutsertakan dalam data</a>
 		</div>
 	</div>
-	@endif
+	@endcan
 </div>
 @endsection
 
