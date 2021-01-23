@@ -56,16 +56,26 @@
 									ctx.oBackingStorePixelRatio ||
 									ctx.backingStorePixelRatio || 1
 									let ratio = dpr / bsr
+									console.log("Ratio: ", ratio);
 
 									let originalviewport = page.getViewport({ scale: 1.5, });
 									var viewport = page.getViewport({scale:screen.availWidth / originalviewport.width,})
+									console.log("o.V", originalviewport);
 									viewport = originalviewport
-									canvas.width = viewport.width * ratio
-									canvas.height = viewport.height * ratio
-									canvas.style.width = viewport.width + 'px'
-									canvas.style.height = viewport.height + 'px'
-									ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+									console.log("v", viewport);
+									//------------JANGAN SENTUH-------------------//
+									canvas.width = 1339 //viewport.width * ratio
+									canvas.height = 1894 //viewport.height * ratio
+									canvas.style.width = 892.92 + 'px'
+									canvas.style.height = 1262.84 + 'px' //viewport.height + 'px'
+									ctx.setTransform(1.5, 0, 0, 1.5, 0, 0)
+									//------------./JANGAN SENTUH-------------------//
 
+									//ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+									/*console.log("C.w: ", canvas.width);
+									console.log("C.h: ", canvas.height);
+									console.log("C.s.w: ", canvas.style.width);
+									console.log("C.s.h: ", canvas.style.height);*/
 
 									const ttdBtn = document.createElement('a');
 									ttdBtn.classList.add("btn");
@@ -154,12 +164,11 @@
 			var pageHeight = 300;
 			var imgHeight = canvas.height * imgWidth / canvas.width;
 			var heightLeft = imgHeight;
-			var imgData = canvas.toDataURL("image/png", 1.0);
 
 			var doc = new jsPDF('p', 'mm');
 			var position = 0;
 
-			doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+			doc.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
 			heightLeft -= pageHeight;
 			document.getElementById('d').value = doc.output('datauristring');
 			document.getElementById('p_st').value = "valid";
