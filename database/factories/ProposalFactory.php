@@ -22,7 +22,13 @@ class ProposalFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'lokasi_prakerin' => $this->faker->company,
+			'tgl_sah' => $this->faker->dateTimeBetween('-1 months'),
+			'file_proposal' => $this->faker->file('storage/faker/proposals', 'storage/app/public/proposals', false),
+			'status_code' => Proposal::STATUS_Tunggu_TTDKoor,
+			'lembar_sah' => $this->faker->sentence(12),
+			'alasanKoor' => $this->faker->sentence(12),
+			'alasanKajur' => $this->faker->sentence(12),
         ];
     }
 }

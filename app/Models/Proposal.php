@@ -17,11 +17,11 @@ class Proposal extends Model{
 	public const STATUS_Disahkan = 5;
 
 	public const status = [
-		self::STATUS_Tunggu_TTDKoor => 'Tunggu TTD koordinator praktek industri.',
-		self::STATUS_Tunggu_TTDKajur => 'Tunggu TTD ketua jurusan.',
-		self::STATUS_Ditolak_Koor => 'Ditolak koordinator praktek industri.',
-		self::STATUS_Ditolak_Kajur => 'Ditolak ketua jurusan.',
-		self::STATUS_Disahkan => 'Disahkan.',
+		self::STATUS_Tunggu_TTDKoor => 'Menunggu TTD Koordinator.',
+		self::STATUS_Tunggu_TTDKajur => 'Menunggu TTD Ketua Jurusan.',
+		self::STATUS_Ditolak_Koor => 'Ditolak Oleh Koordinator.',
+		self::STATUS_Ditolak_Kajur => 'Ditolak Oleh Ketua Jurusan.',
+		self::STATUS_Disahkan => 'Telah Disahkan.',
 	];
 
 	protected $fillable = [
