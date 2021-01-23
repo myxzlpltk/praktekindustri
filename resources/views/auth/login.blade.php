@@ -2,7 +2,7 @@
 
 @section('bodyClass', 'bg-gradient-primary')
 
-@section('title', "Simple Page")
+@section('title', "Masuk")
 
 @push('stylesheets')
 @endpush
@@ -20,6 +20,9 @@
 							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
 							<div class="col-lg-6">
 								<div class="p-5">
+
+									@include('layouts.flash')
+
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
 									</div>
