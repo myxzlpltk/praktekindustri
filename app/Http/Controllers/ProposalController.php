@@ -88,6 +88,7 @@ class ProposalController extends Controller{
 		$proposal->student_id = Auth::user()->student->id;
 
 		if($proposal->save()){
+			Storage::disk('local')->delete(session('preview_pathfile'));
 			return redirect()->route('dashboard')->with(['success' => 'Proposal Berhasil Diajukan!']);
 		} else{
 			return redirect()->route('proposals.create')->with(['failed' => 'Terjadi Kesalahan!']);

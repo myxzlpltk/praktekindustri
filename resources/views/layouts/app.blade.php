@@ -28,7 +28,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
@@ -64,11 +64,12 @@
 			</li>
 			@endcan
 
-			<hr class="sidebar-divider">
 
-			<div class="sidebar-heading">Data Primer</div>
 
 			@can('view-any', \App\Models\Student::class)
+			<hr class="sidebar-divider">
+			<div class="sidebar-heading">Data Primer</div>
+
 			<li class="nav-item @if(Request::segment(1) == 'students') active @endif">
 				<a class="nav-link" href="{{ route('students.index') }}">
 					<i class="fas fa-fw fa-users"></i>
