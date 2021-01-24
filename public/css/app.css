@@ -55,3 +55,8 @@
 	background-repeat: no-repeat;
 }
 
+.bg-gradient-uN1tY{
+	background-color: #075EAB;
+	background-image: linear-gradient(180deg,#075EAB 10%,#064b88 100%);
+	background-size: cover;
+}

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('bodyClass', 'bg-gradient-info')
+@section('bodyClass', 'bg-gradient-uN1tY')
 
 @section('title', "Verifikasi Email")
 
