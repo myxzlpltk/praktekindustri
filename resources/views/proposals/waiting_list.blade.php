@@ -25,9 +25,12 @@
 					<tbody>
 					@forelse ($proposals as $p)
 						<tr role="row">
-							<td><a href="{{ route('students.show', $p->student) }}">{{$p->student->user->name}}</a></td>
+							<td>
+								<a href="{{ route('students.show', $p->student) }}">{{$p->student->user->name}}</a>
+								<small class="d-block text-muted">Dikirim {{ $p->created_at->translatedFormat('d M Y h:m') }}</small>
+							</td>
 							<td>{{$p->lokasi_prakerin}}</td>
-							<td>{{$p->tgl_sah_view}}</td>
+							<td>{{$p->tgl_sah->translatedFormat('d F Y')}}</td>
 							<td><a class="badge {{ Helper::proposalStatusClass($p->status_code) }}">{{ $p->status }}</a></td>
 							<td><a class="btn btn-primary btn-sm" href="{{ route('proposals.show', $p) }}">Detail</a></td>
 						</tr>

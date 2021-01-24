@@ -300,7 +300,7 @@
 				<tr>
 					<th>Tanggal Pengesahan</th>
 					<td>:</td>
-					<td>{{$proposal->tgl_sah_view}}</td>
+					<td>{{$proposal->tgl_sah->translatedFormat('d F Y')}}</td>
 				</tr>
 				<tr>
 					<th>File Proposal PI</th>

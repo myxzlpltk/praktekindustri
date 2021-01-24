@@ -29,6 +29,7 @@ class ProposalFactory extends Factory
 			'lembar_sah' => $this->faker->sentence(12),
 			'alasanKoor' => $this->faker->sentence(12),
 			'alasanKajur' => $this->faker->sentence(12),
+			'created_at' => $this->faker->dateTimeBetween('-1 months'),
         ];
     }
 }

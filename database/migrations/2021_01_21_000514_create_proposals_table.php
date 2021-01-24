@@ -18,7 +18,7 @@ class CreateProposalsTable extends Migration
 			$table->id();
 			$table->foreignId('student_id');
 			$table->string('lokasi_prakerin');
-			$table->string('tgl_sah');
+			$table->date('tgl_sah');
 			$table->string('file_proposal');
 			$table->enum('status_code', [
 				Proposal::STATUS_Tunggu_TTDKoor,

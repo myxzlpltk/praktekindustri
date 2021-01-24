@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ProposalDataTable;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -15,11 +16,29 @@ class ProposalController extends Controller{
 	 *
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
-	public function index(){
+	public function index(ProposalDataTable $dataTable){
+		Gate::authorize('view-any', Proposal::class);
+
+		return $dataTable->render('proposals.index');
+	}
+
+
+	/**
+	 * Display waiting list
+	 *
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+	 */
+	public function waitingList(){
 		Gate::authorize('view-any', Proposal::class);
 
 		return view('proposals.waiting_list', [
-			'proposals' => Proposal::latest()->paginate(10)
+			'proposals' => Proposal::with('student')
+				->oldest()
+				->where('status_code', [
+					Proposal::STATUS_Tunggu_TTDKoor,
+					Proposal::STATUS_Tunggu_TTDKajur,
+				])
+				->paginate(10)
 		]);
 	}
 
@@ -53,7 +72,7 @@ class ProposalController extends Controller{
 		$request->validate([
 			'f_fileproposal' => 'required|mimes:pdf',
 			'f_lokasi' => 'required',
-			'f_tgl_sah' => 'required',
+			'f_tgl_sah' => 'required|date',
 		]);
 
 		/* Request file */

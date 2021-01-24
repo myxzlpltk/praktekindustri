@@ -98,7 +98,7 @@
 						@foreach($student->proposals as $proposal)
 						<tr>
 							<td>{{ $proposal->lokasi_prakerin }}</td>
-							<td>{{ $proposal->tgl_sah_view }}</td>
+							<td>{{ $proposal->tgl_sah->translatedFormat('d F Y') }}</td>
 							<td><a class="badge {{ Helper::proposalStatusClass($proposal->status_code) }}">{{ $proposal->status }}</a></td>
 							<td><a class="btn btn-primary btn-sm" href="{{ route('proposals.show', $proposal) }}">Detail</a></td>
 						</tr>

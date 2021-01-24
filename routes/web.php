@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function (){
 
 	Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
+	Route::get('proposals/waiting-list', 'ProposalController@waitingList')->name('proposals.waiting-list');
 	Route::resource('proposals', ProposalController::class);
 
 	Route::resource('berkas', PdfmakerController::class);

@@ -28,6 +28,8 @@ class Proposal extends Model{
 		'user_id', 'lokasi_prakerin', 'tgl_sah', 'file_proposal', 'status', 'lembar_sah'
 	];
 
+	public $dates = ['tgl_sah'];
+
 	public function getStatusAttribute(){
 		return key_exists($this->status_code, self::status)
 			? __(self::status[$this->status_code])
@@ -36,10 +38,6 @@ class Proposal extends Model{
 
 	public function student(){
 		return $this->belongsTo(Student::class);
-	}
-
-	public function getTglSahViewAttribute(){
-		return Carbon::parse($this->tgl_sah)->isoFormat('D MMMM Y');
 	}
 }
 

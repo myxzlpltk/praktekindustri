@@ -56,9 +56,9 @@
 			</li>
 			@endcan
 			@can('view-any', \App\Models\Proposal::class)
-			<li class="nav-item @if(Request::segment(1) == 'proposals' && !Route::currentRouteNamed('proposals.create')) active @endif">
-				<a class="nav-link" href="{{ route('proposals.index') }}">
-					<i class="fas fa-fw fa-stamp"></i>
+			<li class="nav-item @if(Route::currentRouteNamed('proposals.waiting-list')) active @endif">
+				<a class="nav-link" href="{{ route('proposals.waiting-list') }}">
+					<i class="fas fa-fw fa-file-signature"></i>
 					<span>Pengesahan Proposal</span>
 				</a>
 			</li>
@@ -73,6 +73,15 @@
 				<a class="nav-link" href="{{ route('students.index') }}">
 					<i class="fas fa-fw fa-users"></i>
 					<span>Data Mahasiswa</span>
+				</a>
+			</li>
+			@endcan
+
+			@can('view-any', \App\Models\Proposal::class)
+			<li class="nav-item @if(Request::segment(1) == 'proposals' && !Route::currentRouteNamed('proposals.create') && !Route::currentRouteNamed('proposals.waiting-list')) active @endif">
+				<a class="nav-link" href="{{ route('proposals.index') }}">
+					<i class="fas fa-fw fa-file-contract"></i>
+					<span>Data Proposal</span>
 				</a>
 			</li>
 			@endcan

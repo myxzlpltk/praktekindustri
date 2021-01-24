@@ -23,7 +23,7 @@
 							<tr>
 								<td>Tanggal Pengesahan</td>
 								<td>:</td>
-								<td><a class="badge badge-pill badge-primary">{{$proposal->tgl_sah_view}}</a></td>
+								<td><a class="badge badge-pill badge-primary">{{$proposal->tgl_sah->translatedFormat('d F Y')}}</a></td>
 							</tr>
 						@endif
 						<tr>
