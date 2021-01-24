@@ -325,15 +325,13 @@
 						</a></td>
 					</tr>
 				@endif
-				@if(in_array($proposal->status_code, [3,4], true ))
-					<th>Alasan Penolakan</th>
+				@if(in_array($proposal->status_code, [3,4]))
+				<tr>
+					<td>Alasan Penolakan</td>
 					<td>:</td>
-					@if($proposal->status_code == 3)
-						<td class="text-danger">{{$proposal->alasanKoor}}</td>
-					@elseif($proposal->status_code == 4)
-						<td class="text-danger">{{$proposal->alasanKajur}}</td>
-					@endif
-				@endif
+					<td class="text-danger">{{$proposal->alasanKajur ?? $proposal->alasanKoor}}</td>
+				</tr>
+			@endif
 			</table>
 			<div id="b">
 				<input id="ttdInp" style="display: none;" type="file" accept="image/*" onchange="readURL(this)">
