@@ -248,8 +248,14 @@
 				}
 				fabric.Image.fromURL(e.target.result, function(oImg) {
 							oImg.set({
-								top: 750,
-								left: 570,
+								top: 800,
+								@if($proposal->status_code == 1)
+								left: 560,
+								@elseif($proposal->status_code == 2)
+								left: 200,
+								@endif
+								scaleX: 215/oImg.width,
+								scaleY: 145/oImg.height,
 								selectable: true
 							});
 							f_canvas.add(oImg);

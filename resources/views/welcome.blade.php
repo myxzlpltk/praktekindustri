@@ -12,9 +12,10 @@
 	<div class="container text-dark py-5">
 		<div class="row">
 			<div class="col-md-6 col-lg-7 order-6 order-md-0">
-				<h1 class="display-4 font-weight-bold text-center text-md-left animate__animated animate__backInLeft">Selamat Datang !</h1>
-				<p class="lead">SIOTANG merupakan sistem informasi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid est laudantium similique!</p>
-				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci asperiores, aspernatur dolor doloribus eum facere iste itaque nihil porro quia repellat similique vel voluptatum?</p>
+				<h1 class="display-4 font-weight-bold text-center text-md-left animate__animated animate__backInLeft">Selamat Datang di SIOTANG !</h1>
+				<p class="lead mt-3">SiOTANG - Sistem Informasi Pelayanan Tanda Tangan!<p>
+				<p class="lead">Sistem informasi yang memfasilitasi mahasiswa dalam mengajukan tanda tangan digital kepada dosen atau pimpinan di jurusan Teknik Elektro Universitas Negeri Malang.</p>
+
 
 				<a href="{{ route('login') }}" class="btn btn-primary"><i class="fa fa-sign-in-alt fa-fw"></i> Masuk</a>
 				<a href="{{ route('register') }}" class="btn btn-light"><i class="fa fa-user-plus fa-fw"></i> Daftar</a>
