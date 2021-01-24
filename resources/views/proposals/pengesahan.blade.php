@@ -280,7 +280,7 @@
 				<tr>
 					<th>Nama</th>
 					<td>:</td>
-					<td>{{$proposal->student->user->name}}</td>
+					<td><a href="{{ route('students.show', $proposal->student) }}">{{$proposal->student->user->name}}</a></td>
 				</tr>
 				<tr>
 					<th>NIM</th>

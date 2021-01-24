@@ -82,7 +82,7 @@ class ProposalController extends Controller{
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function show(Proposal $proposal){
-		//Gate::authorize('show', $proposal);
+		Gate::authorize('view', $proposal);
 
 		return view('proposals.pengesahan', compact('proposal'));
 	}

@@ -12,24 +12,24 @@
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<table class="table table-bordered table-responsive" width="100%" style="width: 100%;">
+				<table class="table table-bordered">
 					<thead>
-						<tr role="row">
-							<th style="width: 38px;">Nama Mahasiswa</th>
-							<th style="width: 61px;">Nama Industri/Instansi</th>
-							<th style="width: 50px;">Tanggal Pengesahan</th>
-							<th style="width: 50px;">Status</th>
-							<th style="width: 50px;">Detail</th>
+						<tr>
+							<th>Nama Mahasiswa</th>
+							<th>Nama Industri/Instansi</th>
+							<th>Tanggal Pengesahan</th>
+							<th>Status</th>
+							<th>Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
 					@forelse ($proposals as $p)
 						<tr role="row">
-							<td>{{$p->student->user->name}}</td>
+							<td><a href="{{ route('students.show', $p->student) }}">{{$p->student->user->name}}</a></td>
 							<td>{{$p->lokasi_prakerin}}</td>
 							<td>{{$p->tgl_sah_view}}</td>
 							<td><a class="badge {{ Helper::proposalStatusClass($p->status_code) }}">{{ $p->status }}</a></td>
-							<td><a class="btn btn-primary btn-sm" href="{{ route('proposals.show', $p->id) }}">Detail</a></td>
+							<td><a class="btn btn-primary btn-sm" href="{{ route('proposals.show', $p) }}">Detail</a></td>
 						</tr>
 					@empty
 						<tr>

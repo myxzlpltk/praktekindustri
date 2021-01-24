@@ -91,6 +91,7 @@
 							<th>Nama Industri/Instansi</th>
 							<th>Tanggal Pengesahan</th>
 							<th>Status</th>
+							<th>Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -99,6 +100,7 @@
 							<td>{{ $proposal->lokasi_prakerin }}</td>
 							<td>{{ $proposal->tgl_sah_view }}</td>
 							<td><a class="badge {{ Helper::proposalStatusClass($proposal->status_code) }}">{{ $proposal->status }}</a></td>
+							<td><a class="btn btn-primary btn-sm" href="{{ route('proposals.show', $proposal) }}">Detail</a></td>
 						</tr>
 						@endforeach
 					</tbody>
