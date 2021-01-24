@@ -21,21 +21,35 @@
 
 /* Override background image */
 .bg-login-image {
-	background: url("/img/bg-login.png");
+	background: url("/img/bg-login.svg");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
 .bg-register-image {
-	background: url("/img/bg-register.png");
+	background: url("/img/bg-register.svg");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
 .bg-password-image {
-	background: url("/img/bg-password.png");
+	background: url("/img/bg-password.svg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.bg-email-image {
+	background: url("/img/bg-password.svg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.bg-confirm-password {
+	background: url("/img/bg-confirm-password.svg");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
