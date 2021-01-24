@@ -126,6 +126,12 @@ class ProposalController extends Controller{
 	 */
 	public function update(Request $request, Proposal $proposal){
 		Gate::authorize('update', $proposal);
+		
+		/* Unset session preview pathfile */
+		if($request->session()->has('preview_pathfile')){
+			Storage::disk('local')->delete(session('preview_pathfile'));
+			$request->session()->forget('preview_pathfile');
+		}
 
 		$tahap = ($proposal->status_code == Proposal::STATUS_Tunggu_TTDKajur) ? 2 : 1;
 		if($request->f_p_st == "tolak"){
