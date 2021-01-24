@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Daftar Mahasiswa")
+@section('title', "Data Mahasiswa Terdaftar")
 
 @push('stylesheets')
 	<link rel="stylesheet" href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}">
