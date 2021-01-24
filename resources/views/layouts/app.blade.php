@@ -64,11 +64,12 @@
 			</li>
 			@endcan
 
-			<hr class="sidebar-divider">
 
-			<div class="sidebar-heading">Data Primer</div>
 
 			@can('view-any', \App\Models\Student::class)
+			<hr class="sidebar-divider">
+			<div class="sidebar-heading">Data Primer</div>
+
 			<li class="nav-item @if(Request::segment(1) == 'students') active @endif">
 				<a class="nav-link" href="{{ route('students.index') }}">
 					<i class="fas fa-fw fa-users"></i>
