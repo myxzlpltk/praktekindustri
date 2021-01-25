@@ -45,14 +45,17 @@ class PdfmakerController extends Controller{
 		$y = $fpdf->getY();
 		$fpdf->setX($xKet);
 		$fpdf->MultiCell(75, 6, 'Aji Prasetya Wibawa, S.T., M.M.T., Ph.D. NIP 197912182005011001', 0, 'L');
+		$fpdf->SetXY($fpdf->getX()+120, $y);
+
 		$x = $fpdf->getX();
-
-		$fpdf->SetXY($x+120, $y);
-
 		if(in_array($request->prodi, [2, 4, 5])){
-			$fpdf->MultiCell(70, 6, 'Kartika Candra Kirana, S.Pd., M. Kom NIP 199105012019032030', 0, 'L');
+			$fpdf->Cell(40,6, 'Kartika Candra Kirana, S.Pd., M. Kom.');
+			$fpdf->setXY($x, $fpdf->getY()+6);
+			$fpdf->Cell(40,6, 'NIP 199105012019032030');
 		} else if(in_array($request->prodi, [1, 3, 6])){
-			$fpdf->MultiCell(59, 6, 'Achmad Hamdan, S.Pd., M.Pd. NITP 6400201819443', 0, 'L');
+			$fpdf->Cell(40,6, 'Achmad Hamdan, S.Pd., M.Pd.');
+			$fpdf->setXY($x, $fpdf->getY()+6);
+			$fpdf->Cell(40,6, 'NITP 6400201819443');
 		}
 		$fpdf->Image('./img/border-pdf.png', 50, $fpdf->getY() + 30, 130, 3);
 		$rand = Str::random(16);
