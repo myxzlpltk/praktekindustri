@@ -5,7 +5,6 @@
 @section('title', "Selamat Datang")
 
 @push('stylesheets')
-	<link rel="stylesheet" href="{{ asset('vendor/animatecss/animate.min.css') }}">
 @endpush
 
 @section('simple')
