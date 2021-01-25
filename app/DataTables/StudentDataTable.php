@@ -37,7 +37,7 @@ class StudentDataTable extends DataTable{
 	public function query(Student $model){
 		return $model->newQuery()
 			->with(['user', 'prodi'])
-			->select($model->getTable().".*");;
+			->select($model->getTable().".*");
 	}
 
 	/**

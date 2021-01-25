@@ -34,4 +34,6 @@ Route::middleware(['auth', 'verified'])->group(function (){
 	Route::resource('students', StudentController::class)->only([
 		'destroy'
 	])->middleware('password.confirm');
+
+	Route::resource('prodi', ProdiController::class)->only(['index', 'show']);
 });

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Proposal;
 use App\Models\Student;
 use App\Models\User;
+use App\Policies\ProdiPolicy;
 use App\Policies\ProposalPolicy;
 use App\Policies\StudentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -18,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+		Prodi::class => ProdiPolicy::class,
 		Proposal::class => ProposalPolicy::class,
 		Student::class => StudentPolicy::class,
     ];

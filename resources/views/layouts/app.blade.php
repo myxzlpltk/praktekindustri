@@ -65,8 +65,6 @@
 			</li>
 			@endcan
 
-
-
 			@can('view-any', \App\Models\Student::class)
 			<hr class="sidebar-divider">
 			<div class="sidebar-heading">Data Primer</div>
@@ -84,6 +82,15 @@
 				<a class="nav-link" href="{{ route('proposals.index') }}">
 					<i class="fas fa-fw fa-file-contract"></i>
 					<span>Data Proposal</span>
+				</a>
+			</li>
+			@endcan
+
+			@can('view-any', \App\Models\Prodi::class)
+			<li class="nav-item @if(Request::segment(1) == 'prodi') active @endif">
+				<a class="nav-link" href="{{ route('prodi.index') }}">
+					<i class="fas fa-fw fa-building"></i>
+					<span>Data Program Studi</span>
 				</a>
 			</li>
 			@endcan
