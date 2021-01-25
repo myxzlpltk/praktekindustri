@@ -69,7 +69,7 @@
 
 				<h4 class="small font-weight-bold">Total Proposal Disubmit <span class="float-right">{{$statistik->total_proposal}}</span></h4>
 				<div class="progress mb-4">
-					<div class="progress-bar bg-info" role="progressbar" style="width: {{($statistik->total_proposal == 0)?0:($statistik->total_proposal / $statistik->total_mhs) * 100}}%" aria-valuenow="{{$statistik->total_proposal}}" aria-valuemin="0" aria-valuemax="{{$statistik->total_mhs}}"></div>
+					<div class="progress-bar bg-info" role="progressbar" style="width: {{($statistik->total_mhs == 0)?0:($statistik->total_proposal / $statistik->total_mhs) * 100}}%" aria-valuenow="{{$statistik->total_proposal}}" aria-valuemin="0" aria-valuemax="{{$statistik->total_mhs}}"></div>
 				</div>
 
 				<h4 class="small font-weight-bold">Proposal Menunggu Pengesahan Koordinator <span class="float-right">{{$statistik->pr_wait_koor}}</span></h4>
