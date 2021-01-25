@@ -62,7 +62,7 @@ class StudentPolicy{
      * @return mixed
      */
     public function delete(User $user, Student $student){
-		return $user->isAdmin || $user->isCoordinator;
+		return $user->isAdmin;
     }
 
     /**
