@@ -49,9 +49,8 @@ class ProdiPolicy{
      * @param  \App\Models\Prodi  $prodi
      * @return mixed
      */
-    public function update(User $user, Prodi $prodi)
-    {
-        //
+    public function update(User $user, Prodi $prodi){
+        return $user->isAdmin;
     }
 
     /**

@@ -87,6 +87,45 @@
 		</div>
 	</div>
 
+	@if($user->isCoordinator)
+	<div class="card shadow mb-4">
+		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+			<h6 class="m-0 font-weight-bold text-primary">Informasi Nomor Identifikasi</h6>
+		</div>
+		<div class="card-body">
+			<form action="{{ route('profile.coordinator-update') }}" method="post" enctype="multipart/form-data">
+				@method('PATCH')
+				@csrf
+
+				<div class="row">
+					<div class="col-3">
+						<div class="form-group">
+							<label class="form-control-label" for="id_type">Tipe ID <x-required/></label>
+							<input type="text" id="id_type" name="id_type" class="form-control @error('id_type') is-invalid @enderror" placeholder="NIP/NITP/NIDN" value="{{ old('id_type', $user->coordinator->id_type) }}" required>
+							@error('id_type')
+							<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-9">
+						<div class="form-group">
+							<label class="form-control-label" for="id_number">Nomor Identifikasi <x-required/></label>
+							<input type="text" id="id_number" name="id_number" class="form-control @error('id_number') is-invalid @enderror" placeholder="xxxxxxxxxxxxxx" value="{{ old('id_number', $user->coordinator->id_number) }}" required>
+							@error('id_number')
+							<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-12">
+						<p class="small" id="preview">Pratinjau: <span class="font-weight-bold">{{ old('id_type', $user->coordinator->id_type) }} {{ old('id_number', $user->coordinator->id_number) }}</span></p>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> Simpan</button>
+			</form>
+		</div>
+	</div>
+	@endif
+
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Ganti Kata Sandi</h6>
@@ -126,4 +165,13 @@
 @endsection
 
 @push('scripts')
+	@if($user->isCoordinator)
+		<script>
+			$('#id_type, #id_number').keyup(function (e){
+				$('#preview span').text(
+					$('#id_type').val()+" "+$('#id_number').val()
+				);
+			});
+		</script>
+	@endif
 @endpush

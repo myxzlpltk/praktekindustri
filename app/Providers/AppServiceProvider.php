@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Coordinator;
+use App\Models\Leader;
 use App\Models\Setting;
+use App\Models\Student;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
@@ -43,5 +47,12 @@ class AppServiceProvider extends ServiceProvider
 		config(['app.locale' => 'id']);
 		Carbon::setLocale('id');
 		Paginator::useBootstrap();
+
+		/* Morph Map */
+		Relation::morphMap([
+			'admin' => Leader::class,
+			'coordinator' => Coordinator::class,
+			'student' => Student::class,
+		]);
     }
 }

@@ -16,6 +16,7 @@
 							<th>No.</th>
 							<th>Nama</th>
 							<th>Kode</th>
+							<th>Koordinator</th>
 							<th>Aksi</th>
 						</tr>
 					</thead>
@@ -25,6 +26,7 @@
 							<td>{{ $loop->iteration }}</td>
 							<td>{{ $prodi->name }}</td>
 							<td>{{ $prodi->code }}</td>
+							<td>{{ $prodi->coordinator->name }}</td>
 							<td>
 								@can('view', $prodi)
 								<a href="{{ route('prodi.show', $prodi) }}" class="btn btn-primary btn-sm">Lihat</a>

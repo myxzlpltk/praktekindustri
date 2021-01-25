@@ -28,23 +28,19 @@ class ProposalController extends Controller{
 	 *
 	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
 	 */
-	public function waitingList(){
+	public function waitingList(Request $request){
 		Gate::authorize('view-any', Proposal::class);
-		if(Auth::user()->role == 'coordinator'){
-			//need this line real quicc
+
+		if(Gate::check('isCoordinator')){
 			return view('proposals.waiting_list', [
-				'proposals' => Proposal::with(['student.prodi'])
-					->whereHas('student', function ($query) {
-						$query->whereHas('prodi', function($q){
-							$prodi = (Auth::user()->name == "Achmad Hamdan, S.Pd, M.Pd") ? [1,3,6] : [2,4,5];
-							$q->whereIn('id', $prodi);
-						});
-					})
+				'proposals' => Proposal::with('student.prodi')
+					->coordinator($request->user()->coordinator)
 					->oldest()
 					->where('status_code', Proposal::STATUS_Tunggu_TTDKoor)
 					->paginate(10)
 			]);
-		} else if(Auth::user()->role == 'admin'){
+		}
+		elseif(Gate::check('isAdmin')){
 			return view('proposals.waiting_list', [
 				'proposals' => Proposal::with('student.prodi')
 					->oldest()

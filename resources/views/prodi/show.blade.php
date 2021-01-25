@@ -6,7 +6,18 @@
 	<link rel="stylesheet" href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}">
 @endpush
 
+@section('actions')
+	@can('update', $prodi)
+		<a href="{{ route('prodi.edit', $prodi) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit fa-fw"></i> Edit Koordinator</a>
+	@endcan
+@endsection
+
 @section('content')
+	<div class="alert alert-info" role="alert">
+		<span>Koordinator : </span>
+		<b>{{ $prodi->coordinator->name }}</b>
+	</div>
+
 	<div class="card shadow mb-4">
 		<div class="card-body">
 			<div class="table-responsive">

@@ -12,4 +12,8 @@ class Prodi extends Model{
     public function students(){
     	return $this->hasMany(Student::class);
 	}
+
+	public function coordinator(){
+    	return $this->belongsTo(Coordinator::class);
+	}
 }

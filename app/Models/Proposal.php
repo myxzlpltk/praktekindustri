@@ -30,6 +30,12 @@ class Proposal extends Model{
 
 	public $dates = ['tgl_sah'];
 
+	public function scopeCoordinator($query, Coordinator $coordinator){
+		$query->whereHas('student.prodi', function ($query) use ($coordinator){
+			$query->where('id', $coordinator->id);
+		});
+	}
+
 	public function getStatusAttribute(){
 		return key_exists($this->status_code, self::status)
 			? __(self::status[$this->status_code])

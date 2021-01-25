@@ -17,6 +17,7 @@ Route::view('/', 'welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function (){
 	Route::get('profile', 'ProfileController@index')->name('profile');
+	Route::patch('profile/coordinator/update', 'ProfileController@coordinatorUpdate')->name('profile.coordinator-update');
 
 	Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
@@ -35,7 +36,9 @@ Route::middleware(['auth', 'verified'])->group(function (){
 		'destroy'
 	])->middleware('password.confirm');
 
-	Route::resource('prodi', ProdiController::class)->only(['index', 'show']);
+	Route::resource('prodi', ProdiController::class)->only([
+		'index', 'show', 'edit', 'update'
+	]);
 
 	Route::resource('settings', SettingController::class)->only(['index', 'edit', 'update']);
 });

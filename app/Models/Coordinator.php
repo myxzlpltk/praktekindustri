@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model{
+class Coordinator extends Model{
 
     use HasFactory;
 
-    public function getNameAttribute(){
-    	return $this->user->name;
+	public function getNameAttribute(){
+		return $this->user->name;
 	}
 
 	public function user(){
 		return $this->morphOne(User::class, 'userable', 'role', 'id', 'user_id');
 	}
 
-	public function proposals(){
-		return $this->hasMany(Proposal::class);
-	}
-
 	public function prodi(){
-		return $this->belongsTo(Prodi::class);
+		return $this->hasMany(Prodi::class);
 	}
 }
