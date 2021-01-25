@@ -9,12 +9,17 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class PdfmakerController extends Controller{
 
-	public function index(Request $request){
+	public function index(){
+		return Inspiring::quote();
+	}
+	
+	public function lembarSahProposalPKRN(Request $request){
 		$today = Carbon::parse($request->tgl_sah_value)->isoFormat('D MMMM Y');
 
 		$fpdf = new Fpdf('P', 'mm', 'A4');
@@ -66,7 +71,7 @@ class PdfmakerController extends Controller{
 			$request->session()->forget('preview_pathfile');
 		}
 
-		$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->index($request);
+		$pdfData = ($request->ttd == "kajur") ? $this->getPdfFromFile($request->fileName) : $this->lembarSahProposalPKRN($request);
 		return response()->json(array('preview'=> $pdfData), 200);
 	}
 
