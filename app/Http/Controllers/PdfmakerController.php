@@ -62,7 +62,7 @@ class PdfmakerController extends Controller{
 
 	public function store(Request $request){
 		if($request->session()->has('preview_pathfile')){
-			Storage::disk('local')->delete(session('preview_pathfile'));
+			Storage::delete("tmp/".session('preview_pathfile'));
 			$request->session()->forget('preview_pathfile');
 		}
 
