@@ -30,16 +30,22 @@ class ProposalController extends Controller{
 	 */
 	public function waitingList(){
 		Gate::authorize('view-any', Proposal::class);
+		if(Auth::user()->role == 'coordinator'){
+			return view('proposals.waiting_list', [
+				'proposals' => Proposal::with('student.prodi')
+					->oldest()
+					->where('status_code', Proposal::STATUS_Tunggu_TTDKoor)
+					->paginate(10)
+			]);
+		} else if(Auth::user()->role == 'admin'){
+			return view('proposals.waiting_list', [
+				'proposals' => Proposal::with('student.prodi')
+					->oldest()
+					->where('status_code', Proposal::STATUS_Tunggu_TTDKajur)
+					->paginate(10)
+			]);
+		}
 
-		return view('proposals.waiting_list', [
-			'proposals' => Proposal::with('student.prodi')
-				->oldest()
-				->where('status_code', [
-					Proposal::STATUS_Tunggu_TTDKoor,
-					Proposal::STATUS_Tunggu_TTDKajur,
-				])
-				->paginate(10)
-		]);
 	}
 
 	/**
