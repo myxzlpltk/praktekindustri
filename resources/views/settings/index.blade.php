@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Data Program Studi")
+@section('title', "Konfigurasi")
 
 @push('stylesheets')
 	<link rel="stylesheet" href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}">
@@ -14,20 +14,23 @@
 					<thead>
 						<tr>
 							<th>No.</th>
-							<th>Nama</th>
-							<th>Kode</th>
+							<th>Key</th>
+							<th>Nilai</th>
 							<th>Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($prodis as $prodi)
+						@foreach($settings as $setting)
 						<tr>
 							<td>{{ $loop->iteration }}</td>
-							<td>{{ $prodi->name }}</td>
-							<td>{{ $prodi->code }}</td>
 							<td>
-								@can('view', $prodi)
-								<a href="{{ route('prodi.show', $prodi) }}" class="btn btn-primary btn-sm">Lihat</a>
+								<strong>{{ $setting->key }}</strong>
+								<small class="d-block text-primary">{{ $setting->description }}</small>
+							</td>
+							<td>{{ $setting->value }}</td>
+							<td>
+								@can('update', $setting)
+								<a href="{{ route('settings.edit', $setting) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit fa-fw"></i> Edit</a>
 								@endcan
 							</td>
 						</tr>

@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Proposal;
+use App\Models\Setting;
 use App\Models\Student;
 use App\Models\User;
 use App\Policies\ProdiPolicy;
 use App\Policies\ProposalPolicy;
+use App\Policies\SettingPolicy;
 use App\Policies\StudentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
 		Prodi::class => ProdiPolicy::class,
 		Proposal::class => ProposalPolicy::class,
+		Setting::class => SettingPolicy::class,
 		Student::class => StudentPolicy::class,
     ];
 

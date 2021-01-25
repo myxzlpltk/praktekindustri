@@ -36,4 +36,6 @@ Route::middleware(['auth', 'verified'])->group(function (){
 	])->middleware('password.confirm');
 
 	Route::resource('prodi', ProdiController::class)->only(['index', 'show']);
+
+	Route::resource('settings', SettingController::class)->only(['index', 'edit', 'update']);
 });

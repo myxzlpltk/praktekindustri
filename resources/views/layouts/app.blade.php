@@ -95,7 +95,22 @@
 			</li>
 			@endcan
 
-            <!-- Divider -->
+			@can('isAdmin')
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+			<div class="sidebar-heading">Alat</div>
+			@endcan
+
+			@can('view-any', \App\Models\Setting::class)
+			<li class="nav-item @if(Request::segment(1) == 'settings') active @endif">
+				<a class="nav-link" href="{{ route('settings.index') }}">
+					<i class="fas fa-fw fa-cogs"></i>
+					<span>Konfigurasi</span>
+				</a>
+			</li>
+			@endcan
+
+			<!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
