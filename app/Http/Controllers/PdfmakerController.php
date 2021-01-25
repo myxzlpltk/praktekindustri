@@ -52,7 +52,7 @@ class PdfmakerController extends Controller{
 		$fpdf->Image('./img/border-pdf.png', 50, $fpdf->getY() + 30, 130, 3);
 		$rand = Str::random(16);
 		$fileName = "$rand.pdf";
-		$pathFile = storage_path("app/public/tmp/$fileName");
+		$pathFile = Storage::path("tmp/$fileName");
 
 		$fpdf->Output('F',$pathFile);
 		session(['preview_pathfile' => "public/tmp/$fileName"]);
@@ -71,8 +71,7 @@ class PdfmakerController extends Controller{
 	}
 
 	public function getPdfFromFile($fileName){
-		$pathFile = storage_path("app/public/lembar_sah/ttd_koor/$fileName");
-		$b64Doc = chunk_split(base64_encode(file_get_contents($pathFile)));
+		$b64Doc = chunk_split(base64_encode(Storage::get("lembar_sah/ttd_koor/$fileName")));
 		return $b64Doc;
 	}
 }

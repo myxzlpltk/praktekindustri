@@ -126,7 +126,7 @@ class ProposalController extends Controller{
 	 */
 	public function update(Request $request, Proposal $proposal){
 		Gate::authorize('update', $proposal);
-		
+
 		/* Unset session preview pathfile */
 		if($request->session()->has('preview_pathfile')){
 			Storage::disk('local')->delete(session('preview_pathfile'));
@@ -147,8 +147,8 @@ class ProposalController extends Controller{
 			$data = base64_decode($data);
 
 			$fileName = "Pengesahan_".$proposal->student->user->name."_".$proposal->student->nim.'.pdf';
-			$filePath = ($tahap == 2) ? "app/public/lembar_sah/ttd_sah/$fileName" : "app/public/lembar_sah/ttd_koor/$fileName";
-			file_put_contents(storage_path($filePath), $data);
+			$filePath = ($tahap == 2) ? "lembar_sah/ttd_sah/$fileName" : "lembar_sah/ttd_koor/$fileName";
+			Storage::put($filePath, $data);
 
 			$proposal->status_code = ($tahap == 2) ? Proposal::STATUS_Disahkan : Proposal::STATUS_Tunggu_TTDKajur;
 			$proposal->lembar_sah = $fileName;
@@ -156,7 +156,7 @@ class ProposalController extends Controller{
 
 		if($proposal->save()){
 			if($tahap == 2){
-				Storage::disk('public')->delete("lembar_sah/ttd_koor/{$proposal->lembar_sah}");
+				Storage::delete("lembar_sah/ttd_koor/{$proposal->lembar_sah}");
 			}
 
 			return redirect()
