@@ -32,7 +32,7 @@ class ProposalController extends Controller{
 		Gate::authorize('view-any', Proposal::class);
 
 		return view('proposals.waiting_list', [
-			'proposals' => Proposal::with('student')
+			'proposals' => Proposal::with('student.prodi')
 				->oldest()
 				->where('status_code', [
 					Proposal::STATUS_Tunggu_TTDKoor,

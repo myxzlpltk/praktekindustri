@@ -16,6 +16,7 @@
 					<thead>
 						<tr>
 							<th>Nama Mahasiswa</th>
+							<th>Program Studi</th>
 							<th>Nama Industri/Instansi</th>
 							<th>Tanggal Pengesahan</th>
 							<th>Status</th>
@@ -29,6 +30,7 @@
 								<a href="{{ route('students.show', $p->student) }}">{{$p->student->user->name}}</a>
 								<small class="d-block text-muted">Dikirim {{ $p->created_at->translatedFormat('d M Y h:m') }}</small>
 							</td>
+							<td>{{ $p->student->prodi->name }} {{ $p->student->angkatan }}</td>
 							<td>{{$p->lokasi_prakerin}}</td>
 							<td>{{$p->tgl_sah->translatedFormat('d F Y')}}</td>
 							<td><a class="badge {{ Helper::proposalStatusClass($p->status_code) }}">{{ $p->status }}</a></td>

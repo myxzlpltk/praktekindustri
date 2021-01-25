@@ -21,6 +21,12 @@ class ProposalDataTable extends DataTable{
 			->addColumn('action', function (Proposal $proposal){
 				return '<a class="btn btn-primary btn-sm" href="'.route('proposals.show', $proposal).'">Detail</a>';
 			})
+			->editColumn('prodi', function (Proposal $proposal){
+				return "{$proposal->student->prodi->name} {$proposal->student->angkatan}";
+			})
+			->editColumn('angkatan', function (Proposal $proposal){
+				return $proposal->student->angkatan;
+			})
 			->editColumn('tgl_sah', function (Proposal $proposal){
 				return $proposal->tgl_sah->translatedFormat('d F Y');
 			})
@@ -38,9 +44,9 @@ class ProposalDataTable extends DataTable{
 				$query->whereIn('status_code', $keys);
 			})
 			->editColumn('name', function (Proposal $proposal){
-				return $proposal->student->user->name;
+				return '<a href="'.route('students.show', $proposal->student).'">'.e($proposal->student->user->name).'</a>';
 			})
-			->rawColumns(['status_code', 'action']);
+			->rawColumns(['status_code', 'action', 'name']);
 	}
 
 	/**
@@ -51,7 +57,7 @@ class ProposalDataTable extends DataTable{
 	 */
 	public function query(Proposal $model){
 		return $model->newQuery()
-			->with('student.user')
+			->with(['student.user', 'student.prodi'])
 			->select($model->getTable().".*");
 	}
 
@@ -81,6 +87,8 @@ class ProposalDataTable extends DataTable{
 	protected function getColumns(){
 		return [
 			Column::make('name', 'student.user.name')->title('Nama Mahasiswa'),
+			Column::make('prodi', 'student.prodi.name')->title('Program Studi'),
+			Column::make('angkatan', 'student.angkatan')->hidden(),
 			Column::make('lokasi_prakerin')->title('Nama Industri/Instansi'),
 			Column::make('tgl_sah')->title('Tanggal Pengesahan'),
 			Column::make('status_code')->title('Status'),
