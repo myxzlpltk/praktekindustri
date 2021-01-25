@@ -31,8 +31,15 @@ class ProposalController extends Controller{
 	public function waitingList(){
 		Gate::authorize('view-any', Proposal::class);
 		if(Auth::user()->role == 'coordinator'){
+			//need this line real quicc
 			return view('proposals.waiting_list', [
-				'proposals' => Proposal::with('student.prodi')
+				'proposals' => Proposal::with(['student.prodi'])
+					->whereHas('student', function ($query) {
+						$query->whereHas('prodi', function($q){
+							$prodi = (Auth::user()->name == "Achmad Hamdan, S.Pd, M.Pd") ? [1,3,6] : [2,4,5];
+							$q->whereIn('id', $prodi);
+						});
+					})
 					->oldest()
 					->where('status_code', Proposal::STATUS_Tunggu_TTDKoor)
 					->paginate(10)
