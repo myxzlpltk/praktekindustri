@@ -69,8 +69,6 @@ class CreateNewUser implements CreatesNewUsers
 		$student->ktm = basename($ktm);
 		$student->save();
 
-		$user->sendEmailVerificationNotification();
-
         return $user;
     }
 }
