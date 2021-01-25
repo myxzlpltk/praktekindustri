@@ -18,7 +18,7 @@ class PdfmakerController extends Controller{
 	public function index(){
 		return Inspiring::quote();
 	}
-	
+
 	public function lembarSahProposalPKRN(Request $request){
 		$today = Carbon::parse($request->tgl_sah_value)->isoFormat('D MMMM Y');
 
@@ -49,9 +49,9 @@ class PdfmakerController extends Controller{
 
 		$fpdf->SetXY($x+120, $y);
 
-		if(in_array($request->prodi, [1, 3, 6])){
+		if(in_array($request->prodi, [2, 4, 5])){
 			$fpdf->MultiCell(70, 6, 'Kartika Candra Kirana, S.Pd., M. Kom NIP 199105012019032030', 0, 'L');
-		} else if(in_array($request->prodi, [2, 4, 5])){
+		} else if(in_array($request->prodi, [1, 3, 6])){
 			$fpdf->MultiCell(59, 6, 'Achmad Hamdan, S.Pd., M.Pd. NITP 6400201819443', 0, 'L');
 		}
 		$fpdf->Image('./img/border-pdf.png', 50, $fpdf->getY() + 30, 130, 3);
