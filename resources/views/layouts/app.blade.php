@@ -18,6 +18,8 @@
 	<link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+	<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+
     @stack('stylesheets')
 </head>
 
