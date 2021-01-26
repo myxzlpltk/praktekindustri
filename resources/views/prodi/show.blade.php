@@ -15,7 +15,7 @@
 @section('content')
 	<div class="alert alert-info" role="alert">
 		<span>Koordinator : </span>
-		<b>{{ $prodi->coordinator->name }}</b>
+		<b><a href="{{ route('coordinators.show', $prodi->coordinator) }}">{{ $prodi->coordinator->name }}</a></b>
 	</div>
 
 	<div class="card shadow mb-4">

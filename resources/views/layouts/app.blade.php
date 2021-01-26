@@ -87,10 +87,19 @@
 			@endcan
 
 			@can('view-any', \App\Models\Prodi::class)
-			<li class="nav-item @if(Request::segment(1) == 'prodi') active @endif">
-				<a class="nav-link" href="{{ route('prodi.index') }}">
-					<i class="fas fa-fw fa-building"></i>
-					<span>Data Program Studi</span>
+				<li class="nav-item @if(Request::segment(1) == 'prodi') active @endif">
+					<a class="nav-link" href="{{ route('prodi.index') }}">
+						<i class="fas fa-fw fa-building"></i>
+						<span>Data Program Studi</span>
+					</a>
+				</li>
+			@endcan
+
+			@can('view-any', \App\Models\Coordinator::class)
+			<li class="nav-item @if(Request::segment(1) == 'coordinators') active @endif">
+				<a class="nav-link" href="{{ route('coordinators.index') }}">
+					<i class="fas fa-fw fa-users-cog"></i>
+					<span>Data Koordinator</span>
 				</a>
 			</li>
 			@endcan

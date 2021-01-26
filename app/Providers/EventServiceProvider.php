@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Coordinator;
 use App\Models\Proposal;
 use App\Models\Student;
 use App\Models\User;
+use App\Observers\CoordinatorObserver;
 use App\Observers\ProposalObserver;
 use App\Observers\StudentObserver;
 use App\Observers\UserObserver;
@@ -32,6 +34,7 @@ class EventServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(){
+    	Coordinator::observe(CoordinatorObserver::class);
     	Proposal::observe(ProposalObserver::class);
     	Student::observe(StudentObserver::class);
     	User::observe(UserObserver::class);

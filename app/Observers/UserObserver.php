@@ -35,9 +35,7 @@ class UserObserver{
      * @return void
      */
     public function deleted(User $user){
-		if($user->isStudent && $user->student){
-			$user->student->delete();
-		}
+		if($user->userable) $user->userable->delete();
     }
 
     /**

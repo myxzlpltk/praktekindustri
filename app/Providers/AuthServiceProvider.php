@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Coordinator;
+use App\Models\Prodi;
 use App\Models\Proposal;
 use App\Models\Setting;
 use App\Models\Student;
 use App\Models\User;
+use App\Policies\CoordinatorPolicy;
 use App\Policies\ProdiPolicy;
 use App\Policies\ProposalPolicy;
 use App\Policies\SettingPolicy;
@@ -21,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+    	Coordinator::class => CoordinatorPolicy::class,
 		Prodi::class => ProdiPolicy::class,
 		Proposal::class => ProposalPolicy::class,
 		Setting::class => SettingPolicy::class,

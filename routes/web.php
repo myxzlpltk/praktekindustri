@@ -40,5 +40,10 @@ Route::middleware(['auth', 'verified'])->group(function (){
 		'index', 'show', 'edit', 'update'
 	]);
 
+	Route::patch('coordinators/reset-password/{coordinator}', 'CoordinatorController@resetPassword')
+		->name('coordinators.reset-password')
+		->middleware('password.confirm');
+	Route::resource('coordinators', CoordinatorController::class);
+
 	Route::resource('settings', SettingController::class)->only(['index', 'edit', 'update']);
 });
